@@ -10,10 +10,11 @@ public abstract class Game extends Application {
     public abstract void onLaunch();
 
     public void onFinish() {
-
+        // Do something in subclass.
     }
 
     public boolean onExit() {
+        // Do something in subclass.
         return true;//可以用来实现退出弹窗功能
     }
 
