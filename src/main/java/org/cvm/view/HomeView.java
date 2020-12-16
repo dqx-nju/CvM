@@ -92,12 +92,15 @@ public class HomeView extends View {
 
     @Override
     public void onUpdate(double time) {
-        if (keyInput.isPressed(Key.L)) {
+        if (keyInput.isReleased(Key.L)) {
             System.out.println("Pressed L");
             File file = fileChooser.showOpenDialog(app.getStage());
             if (file != null) {
                 app.setFile(file);
                 app.gotoView("Play");
+            }
+            else {
+                System.out.println("file = null");
             }
         }
         if (keyInput.isPressed(Key.SPACE)) {
