@@ -12,7 +12,9 @@ import javafx.stage.WindowEvent;
 import org.cvm.Framework;
 import org.cvm.input.KeyInput;
 import org.cvm.input.MouseInput;
+import org.cvm.view.PlayView;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class App {
@@ -34,7 +36,11 @@ public class App {
     OnFinish onFinish;
     OnExit onExit;
 
+    private File file;
+
     public App(Stage stage) {
+        file = null;
+
         this.stage = stage;
 
         root = new StackPane();
@@ -53,6 +59,8 @@ public class App {
         initFramework();
         initApp();
         initEngine();
+
+        engine.start();
     }
 
     private final void initFramework() {
@@ -108,14 +116,14 @@ public class App {
             keyInput.uninstall(stage);
             mouseInput.uninstall(stage);
         };
-        stage.focusedProperty().addListener((o,ov,nv) -> {
-            if(nv) {
-                engine.start();
-            }
-            else {
-                engine.stop();
-            }
-        });
+//        stage.focusedProperty().addListener((o,ov,nv) -> {
+//            if(nv) {
+//                engine.start();
+//            }
+//            else {
+//                engine.stop();
+//            }
+//        });
     }
 
     public Stage getStage() {
@@ -181,6 +189,7 @@ public class App {
     public void gotoView(String name) {
         View view = viewMap.get(name);
         if(view != null) {
+            //view.onLaunch();
             currentView.set(view);
         }
     }
@@ -220,5 +229,13 @@ public class App {
     }
     static interface OnExit {
         boolean handle();
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public File getFile() {
+        return this.file;
     }
 }

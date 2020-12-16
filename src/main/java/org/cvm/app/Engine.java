@@ -79,7 +79,7 @@ public class Engine {
     void handle(long now) {
         timer.handle(now);
     }
-    void stop() {
+    public void stop() {
         timer.stop();
     }
     void reset() {

@@ -11,17 +11,27 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import org.cvm.app.View;
 import org.cvm.input.Key;
+import org.cvm.input.KeyInput;
 import org.cvm.input.Mouse;
+
+import java.awt.*;
+import java.io.File;
 
 import static org.cvm.Framework.*;
 import static org.cvm.Framework.mouseInput;
 
 public class HomeView extends View {
 
+    FileChooser fileChooser;
+
     @Override
     public void onLaunch() {
+        System.out.println("HomeView onLaunch");
+
+        fileChooser = new FileChooser();
 
         Image img_play = new Image(getClass().getResourceAsStream("play.png"));
         Image img_play2 = new Image(getClass().getResourceAsStream("play2.png"));
@@ -57,14 +67,14 @@ public class HomeView extends View {
 
         Group group = new Group();
 
-        Image img_home = new Image(getClass().getResourceAsStream("home.png"));
+        Image img_home = new Image(getClass().getResourceAsStream("home.jpg"));
         ImageView img_home_view = new ImageView(img_home);
         group.getChildren().add(img_home_view);
 
         Image img_title = new Image(getClass().getResourceAsStream("title.png"));
         ImageView img_title_view = new ImageView(img_title);
 
-        Text text = new Text("V1.0");
+        Text text = new Text("V1.0    L：读取文件");
         text.setFont(new Font(30));
 
         AnchorPane anchorPane = new AnchorPane();
@@ -78,5 +88,17 @@ public class HomeView extends View {
 
         getChildren().add(group);
         getChildren().add(anchorPane);
+    }
+
+    @Override
+    public void onUpdate(double time) {
+        if (keyInput.isPressed(Key.L)) {
+            System.out.println("Pressed L");
+            File file = fileChooser.showOpenDialog(app.getStage());
+            if (file != null) {
+                app.setFile(file);
+                app.gotoView("Play");
+            }
+        }
     }
 }

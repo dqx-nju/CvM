@@ -43,7 +43,8 @@ public abstract class View {
     }
 
     public void onLeave() {
-        // Do something in subclass.
+        onLaunch();
+        // 离开页面时重置页面
     }
 
     public void onFinish() {
