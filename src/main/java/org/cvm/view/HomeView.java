@@ -24,7 +24,7 @@ public class HomeView extends View {
     public void onLaunch() {
 
         Image img_play = new Image(getClass().getResourceAsStream("play.png"));
-        Image img_play2 = new Image(getClass().getResourceAsStream(("play2.png")));
+        Image img_play2 = new Image(getClass().getResourceAsStream("play2.png"));
         ImageView img_play_view = new ImageView(img_play);
         HBox hbox_play = new HBox(img_play_view);
         hbox_play.addEventHandler(MouseEvent.MOUSE_ENTERED,(event) -> {
@@ -38,7 +38,7 @@ public class HomeView extends View {
         });
 
         Image img_exit = new Image(getClass().getResourceAsStream("exit.png"));
-        Image img_exit2 = new Image(getClass().getResourceAsStream(("exit2.png")));
+        Image img_exit2 = new Image(getClass().getResourceAsStream("exit2.png"));
         ImageView img_exit_view = new ImageView(img_exit);
         HBox hbox_exit = new HBox(img_exit_view);
         hbox_exit.addEventHandler(MouseEvent.MOUSE_ENTERED,(event) -> {

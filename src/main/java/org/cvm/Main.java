@@ -16,6 +16,7 @@ public class Main extends Game {
         app.regView("Home", new HomeView());
         app.regView("Play", new PlayView());
         app.gotoView("Home");
+        // app.gotoView("Play"); // 测试
     }
 
     public static void main(String[] args) {
