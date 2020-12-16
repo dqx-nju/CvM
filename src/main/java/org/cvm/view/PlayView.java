@@ -1,9 +1,13 @@
 package org.cvm.view;
 
+import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import org.cvm.app.View;
+import org.cvm.input.Key;
 
 import java.io.File;
 
@@ -21,14 +25,11 @@ public class PlayView extends View {
     @Override
     public void onLaunch() {
         System.out.println("PlayView onLaunch");
-        Button homeBtn = new Button("Home");
-        homeBtn.addEventHandler(MouseEvent.MOUSE_CLICKED,(e) -> {
-            System.out.println("PlayView home -> test");
-            homeBtn.setText("test");
-            app.gotoView("Home");
-        });
-        homeBtn.resize(900,500);
-        getChildren().add(homeBtn);
+        Group group = new Group();
+        Image img_play_bg = new Image(getClass().getResourceAsStream("play_bg.png"));
+        ImageView img_play_bg_view = new ImageView(img_play_bg);
+        group.getChildren().add(img_play_bg_view);
+        getChildren().add(group);
     }
 
     @Override
@@ -42,6 +43,14 @@ public class PlayView extends View {
         }
         else {
             System.out.println("No file");
+        }
+    }
+
+    @Override
+    public void onUpdate(double time) {
+        if (keyInput.isPressed(Key.ESCAPE)) {
+            System.out.println("Pressed ESC");
+            app.gotoView("Home");
         }
     }
 

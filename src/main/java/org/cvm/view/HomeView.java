@@ -100,5 +100,13 @@ public class HomeView extends View {
                 app.gotoView("Play");
             }
         }
+        if (keyInput.isPressed(Key.SPACE)) {
+            System.out.println("Pressed SPACE");
+            app.gotoView("Play");
+        }
+        if (keyInput.isPressed(Key.ESCAPE)) {
+            System.out.println("Pressed ESC");
+            app.exit();
+        }
     }
 }
