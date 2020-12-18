@@ -12,11 +12,15 @@ public class Creature {
     private int Missrate;
     private List<AttackBuff> attackBuffs;
     private List<ArmorBuff> armorBuffs;
-    Creature(int Attack,int Armor,int CriticalStrike,int Missrate){
+    private int HP;
+    private int MAXHP;
+    Creature(int Attack,int Armor,int CriticalStrike,int Missrate,int HP){
         this.Attack=Attack;
         this.Armor=Armor;
         this.CriticalStrike=CriticalStrike;
         this.Missrate=Missrate;
+        this.HP=HP;
+        this.MAXHP=HP;
         armorBuffs=new ArrayList<ArmorBuff>();
         attackBuffs=new ArrayList<AttackBuff>();
     }
@@ -50,7 +54,25 @@ public class Creature {
         ArmorBuff arm=new ArmorBuff(Armorchange,Armorbufftime);
         armorBuffs.add(arm);
     }
+
+    public int getHP() {
+        return HP;
+    }
+
+    public int getMAXHP() {
+        return MAXHP;
+    }
+
+    public void setHP(int HP) {
+        this.HP = HP;
+    }
+
+    public void setAttack(int attack) {
+        Attack = attack;
+    }
+
     public void newturn(){
+        CountDown();
         Iterator<AttackBuff> iter1=attackBuffs.iterator();
         while (iter1.hasNext()){
             AttackBuff a=iter1.next();
@@ -66,4 +88,13 @@ public class Creature {
             }
         }
     }
+    void CountDown(){
+        for(AttackBuff att:attackBuffs){
+            att.countdown();
+        }
+        for(ArmorBuff arm:armorBuffs){
+            arm.countdown();
+        }
+    }
+
 }
