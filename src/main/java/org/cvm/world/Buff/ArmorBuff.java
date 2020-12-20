@@ -19,7 +19,11 @@ public class ArmorBuff {
         if(Armorbufftime>0) Armorbufftime--;
     }
 
-    public int getAttackChange() {
+    public int getArmorChange() {
         return ArmorChange;
+    }
+
+    public int getArmorbufftime() {
+        return Armorbufftime;
     }
 }

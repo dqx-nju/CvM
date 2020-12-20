@@ -24,6 +24,13 @@ public class CalabashbrotherTeam {
         CalabashBrother c5=new CalabashBrother(70,60,5,3,350,5);
         CalabashBrother c6=new CalabashBrother(55,55,5,10,350,6);
         CalabashBrother c7=new CalabashBrother(60,60,5,5,300,7);
+        c1.posx=0;c1.posy=0;
+        c2.posx=1;c2.posy=0;
+        c3.posx=2;c3.posy=0;
+        c4.posx=3;c4.posy=0;
+        c5.posx=4;c5.posy=0;
+        c6.posx=1;c6.posy=1;
+        c7.posx=3;c7.posy=1;
         list.add(c1);
         list.add(c2);
         list.add(c3);
@@ -41,6 +48,15 @@ public class CalabashbrotherTeam {
         teamSkillNumber=MaxTeamSkillNumber;
         teamActionnumber=MaxTeamAcitonNumber;
     }
+    public int[][] getallpostion(){
+        int[][] pos=new int[7][2];
+        for(int i=0;i<list.size();i++){
+            pos[i][0]=list.get(i).posx;
+            pos[i][1]=list.get(i).posy;
+        }
+        return pos;
+    }
+
     public int getNo(int num){//返回葫芦娃参数No_X,范围1~7
         int x=num%9;//行
         int y=num-x;//列
@@ -51,6 +67,35 @@ public class CalabashbrotherTeam {
         }
         return -1;
     }
+    public List<String> getinformation(int No_x){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getNo_x()==No_x){
+                CalabashBrother c=list.get(i);
+                List<String> output=new ArrayList<String>();
+                output.add("HP/MAXHP: "+c.getHP()+" / "+c.getMAXHP());
+                output.add("criticalstrike: "+c.getCriticalStrike());
+                output.add("missrate: "+c.getMissrate());
+                output.add("attack: "+c.getAttack());
+                output.add("skillname: "+c.getSkillname());
+                output.add("skilldescription: "+ c.getSkilldescription());
+                output.add("skillnumber: "+c.getSkillnumber());
+                output.add("skillcost: " + c.getSkillcost());
+                output.add("attackbuffs:");
+                List<AttackBuff> att=c.getAttackBuffs();
+                for(int j=0;j<att.size();j++){
+                    output.add("buffnumber: "+att.get(i).getAttackChange()+" bufftime: "+att.get(i).getAttackbufftime());
+                }
+                output.add("armorbuffs:");
+                List<ArmorBuff> arm=c.getArmorBuffs();
+                for(int j=0;j<arm.size();j++)
+                    output.add("buffnumber: "+arm.get(i).getArmorChange()+" bufftime: "+arm.get(i).getArmorbufftime());
+                return output;
+                }
+            }
+        List<String> output=new ArrayList<String>();
+        return output;
+    }
+
     public String moveup(int No_x){
         if(teamActionnumber<=0) return "";
         int i=0;
@@ -87,7 +132,7 @@ public class CalabashbrotherTeam {
         if(CalabashbrotherTeam.haveCreature(x+1,y)||MonsterTeam.haveCreature(x+1,y)) return "";
         list.get(i).posx=x+1;
         teamActionnumber--;
-        return "CalabashBrother No."+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
+        return "CalabashBrother "+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
     }
     public String moveleft(int No_x){
         if(teamActionnumber<=0) return "";
@@ -106,7 +151,7 @@ public class CalabashbrotherTeam {
         if(CalabashbrotherTeam.haveCreature(x,y-1)||MonsterTeam.haveCreature(x,y-1)) return "";
         list.get(i).posy=y-1;
         teamActionnumber--;
-        return "CalabashBrother No."+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
+        return "CalabashBrother "+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
     }
     public String moveright(int No_x){
         if(teamActionnumber<=0) return "";
@@ -125,7 +170,7 @@ public class CalabashbrotherTeam {
         if(CalabashbrotherTeam.haveCreature(x,y+1)||MonsterTeam.haveCreature(x,y+1)) return "";
         list.get(i).posy=y+1;
         teamActionnumber--;
-        return "CalabashBrother No."+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
+        return "CalabashBrother "+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
     }
     public static boolean haveCreature(int x,int y){
         for(int i=0;i<list.size();i++){
@@ -139,7 +184,7 @@ public class CalabashbrotherTeam {
         for(int i=0;i<list.size();i++){
             if(list.get(i).getNo_x()==No_x){
                 list.get(i).newAttackBuff(attackchange, attackbufftime);
-                return "CalabashBrother No."+No_x+" get Attack buff : change:"+ attackchange +" time:"+attackbufftime;
+                return "CalabashBrother "+No_x+" get Attack buff : change:"+ attackchange +" time:"+attackbufftime;
             }
         }
         return "";
@@ -148,7 +193,7 @@ public class CalabashbrotherTeam {
         for(int i=0;i<list.size();i++){
             if(list.get(i).getNo_x()==No_x){
                 list.get(i).newAttackBuff(armorchange, armorbufftime);
-                return "CalabashBrother No."+No_x+" get Armor buff : change:"+ armorchange +" time:"+armorbufftime;
+                return "CalabashBrother "+No_x+" get Armor buff : change:"+ armorchange +" time:"+armorbufftime;
             }
         }
         return "";
@@ -166,8 +211,8 @@ public class CalabashbrotherTeam {
         int x=c.posx;
         int y=c.posy;
         int[][] f=c.getField();
-        if(is_skill) strs.add("Calabashbrother No."+No_x+" launch skill:"+ c.getSkillname());
-        else strs.add("Calabashbrother No."+No_x+" do normal attack");
+        if(is_skill) strs.add("Calabashbrother "+No_x+" launch skill:"+ c.getSkillname());
+        else strs.add("Calabashbrother "+No_x+" do normal attack");
         if(is_skill) {
             for (int j = 0; j < f.length; j++) {
                 if (MonsterTeam.haveCreature(x + f[j][0], y + f[j][1])) {
@@ -176,9 +221,12 @@ public class CalabashbrotherTeam {
                     tmp.setAttack(c.getSkillnumber());
                     int damage = a.DamageCaculate(tmp, m);
                     if (damage == -1)
-                        strs.add("Calabashbrother No." + No_x + " attack Monster No." + m.getNo_x() + " Miss");
-                    else
-                        strs.add("Calabashbrother No." + No_x + " attack Monster No." + m.getNo_x() + " Damage:" + damage);
+                        strs.add("Calabashbrother " + No_x + " attack Monster " + m.getNo_x() + " Miss");
+                    else{
+                        MonsterTeam.getattack(m.getNo_x(),damage,m);
+                        strs.add("Calabashbrother " + No_x + " attack Monster " + m.getNo_x() + " Damage:" + damage+"Monster HP/MaxHP:"+ m.getHP()+" / "+m.getMAXHP());
+                        if(m.getHP()<=0) MonsterTeam.monsterDead(m.getNo_x());
+                    }
                 }
             }
             switch (No_x) {
@@ -227,9 +275,12 @@ public class CalabashbrotherTeam {
                 Monster m=MonsterTeam.getMon(c.posx,c.posy+1);
                 int damage=a.DamageCaculate(c,m);
                 if (damage == -1)
-                    strs.add("Calabashbrother No." + No_x + " attack Monster No." + m.getNo_x() + " Miss");
-                else
-                    strs.add("Calabashbrother No." + No_x + " attack Monster No." + m.getNo_x() + " Damage:" + damage);
+                    strs.add("Calabashbrother " + No_x + " attack Monster " + m.getNo_x() + " Miss");
+                else{
+                    MonsterTeam.getattack(m.getNo_x(),damage,m);
+                    strs.add("Calabashbrother " + No_x + " attack Monster " + m.getNo_x() + " Damage:" + damage+"Monster HP/MaxHP:"+ m.getHP()+" / "+m.getMAXHP());
+                    if(m.getHP()<=0) MonsterTeam.monsterDead(m.getNo_x());
+                }
             }
         }
         return strs;

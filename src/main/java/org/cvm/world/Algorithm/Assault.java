@@ -19,7 +19,7 @@ public class Assault {
         }
         if(Attackbuffnumber==0) return 0;
         for(ArmorBuff arm:armorBuffs){
-            Armorbuffnumber=Armorbuffnumber+arm.getAttackChange();
+            Armorbuffnumber=Armorbuffnumber+arm.getArmorChange();
         }
         Attack=Attack+Armorbuffnumber;
         Armor=Armor+Armorbuffnumber;

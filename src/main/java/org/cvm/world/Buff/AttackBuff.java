@@ -22,4 +22,6 @@ public class AttackBuff {
     public int getAttackChange() {
         return AttackChange;
     }
+    public int getAttackbufftime(){ return Attackbufftime;}
+
 }

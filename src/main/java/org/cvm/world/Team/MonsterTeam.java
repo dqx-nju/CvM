@@ -20,6 +20,13 @@ public class MonsterTeam {
         Monster c5=new Monster(70,60,5,3,350,5);
         Monster c6=new Monster(55,55,5,10,350,6);
         Monster c7=new Monster(60,60,5,5,300,7);
+        c1.posx=0;c1.posy=8;
+        c2.posx=1;c2.posy=8;
+        c3.posx=2;c3.posy=8;
+        c4.posx=3;c4.posy=8;
+        c5.posx=4;c5.posy=8;
+        c6.posx=1;c6.posy=7;
+        c7.posx=3;c7.posy=7;
         list.add(c1);
         list.add(c2);
         list.add(c3);
@@ -46,6 +53,24 @@ public class MonsterTeam {
         }
         Monster m=new Monster(0,0,0,0,0,0);
         return m;
+    }
+    static void monsterDead(int No_x){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getNo_x()==No_x){
+                list.remove(i);
+                break;
+            }
+        }
+    }
+
+    public static void getattack(int No_x,int damage,Monster m){
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getNo_x()==No_x){
+                int HP=list.get(i).getHP();
+                list.get(i).setHP(HP-damage);
+                m=list.get(i);
+            }
+        }
     }
 
     public int getNo(int num){//返回葫芦娃参数No_X,范围1~7

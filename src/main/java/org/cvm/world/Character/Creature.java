@@ -64,7 +64,8 @@ public class Creature {
     }
 
     public void setHP(int HP) {
-        this.HP = HP;
+        if(HP>=0) this.HP = HP;
+        else HP=0;
     }
 
     public void setAttack(int attack) {
