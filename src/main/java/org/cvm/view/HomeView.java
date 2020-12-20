@@ -53,9 +53,11 @@ public class HomeView extends View {
         HBox hbox_exit = new HBox(img_exit_view);
         hbox_exit.addEventHandler(MouseEvent.MOUSE_ENTERED,(event) -> {
             img_exit_view.setImage(img_exit2);
+            System.out.println("111");
         });
         hbox_exit.addEventHandler(MouseEvent.MOUSE_EXITED,(event) -> {
             img_exit_view.setImage(img_exit);
+            System.out.println("222");
         });
         hbox_exit.addEventHandler(MouseEvent.MOUSE_CLICKED,(event) -> {
             app.exit();
