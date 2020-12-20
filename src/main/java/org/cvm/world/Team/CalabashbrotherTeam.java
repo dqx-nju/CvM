@@ -14,7 +14,7 @@ public class CalabashbrotherTeam {
     private int teamActionnumber;
     static List<CalabashBrother> list;
     private Assault a;
-    CalabashbrotherTeam(){
+    public CalabashbrotherTeam(){
         list=new ArrayList<CalabashBrother>();
         a=new Assault();
         CalabashBrother c1=new CalabashBrother(80,50,5,3,400,1);
