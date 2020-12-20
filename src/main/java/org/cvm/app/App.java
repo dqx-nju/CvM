@@ -13,6 +13,7 @@ import org.cvm.Framework;
 import org.cvm.input.KeyInput;
 import org.cvm.input.MouseInput;
 import org.cvm.view.PlayView;
+import org.cvm.world.Team.CalabashbrotherTeam;
 
 import java.io.File;
 import java.util.HashMap;
@@ -38,6 +39,8 @@ public class App {
 
     private File file;
 
+    private CalabashbrotherTeam calabashbrotherTeam;
+
     public App(Stage stage) {
         file = null;
 
@@ -56,6 +59,8 @@ public class App {
 
         mouseInput = new MouseInput();
 
+        calabashbrotherTeam = new CalabashbrotherTeam();
+
         initFramework();
         initApp();
         initEngine();
@@ -68,6 +73,7 @@ public class App {
         Framework.engine = engine;
         Framework.keyInput = keyInput;
         Framework.mouseInput = mouseInput;
+        Framework.calabashbrotherTeam = calabashbrotherTeam;
     }
 
     private final void initApp() {

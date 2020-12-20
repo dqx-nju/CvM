@@ -2,10 +2,12 @@ package org.cvm.view;
 
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import org.cvm.app.View;
 import org.cvm.input.Key;
 import org.cvm.input.KeyInput;
@@ -24,6 +26,7 @@ public class PlayView extends View {
     private File file;
     VBox vbox;
     VBox[] blocks;
+    ProgressBar[] bloods;
     int selected_id = -1;
     int selected_block = -1;
 
@@ -44,12 +47,17 @@ public class PlayView extends View {
         vbox = new VBox();
         vbox.setSpacing(10);
         blocks = new VBox[5 * 9];
+        bloods = new ProgressBar[7];
         for(int i = 0; i < 5; i++) {
             HBox hbox = new HBox();
             hbox.setSpacing(10);
             for(int j = 0; j < 9; j++) {
                 VBox vbox_figure = new VBox();
                 ImageView img_figure;
+                ProgressBar progressBar = new ProgressBar();
+                progressBar.setPrefWidth(70);
+                progressBar.setStyle("-fx-accent: red;");
+                progressBar.setProgress(1);
                 ImageView img_blood;
                 if (i * 9 + j == 15) {
                     img_figure = new ImageView(new Image(getClass().getResourceAsStream("../world/b1_right.png")));
@@ -60,12 +68,20 @@ public class PlayView extends View {
                     img_blood = new ImageView();
                 }
                 img_figure.setFitWidth(70);
-                img_figure.setFitHeight(70);
+                img_figure.setFitHeight(66);
 
                 img_blood.setFitWidth(70);
-                img_blood.setFitHeight(16);
-                vbox_figure.getChildren().add(img_blood);
-                vbox_figure.getChildren().add(img_figure);
+                img_blood.setFitHeight(20);
+                if (i * 9 + j == 15) {
+                    bloods[0] = progressBar;
+                    vbox_figure.getChildren().add(progressBar);
+                    vbox_figure.getChildren().add(img_figure);
+                }
+                else {
+                    vbox_figure.getChildren().add(img_blood);
+                    vbox_figure.getChildren().add(img_figure);
+                }
+
                 VBox vbox_figure_outside = new VBox(vbox_figure);
                 hbox.getChildren().add(vbox_figure_outside);
                 blocks[9 * i + j] = vbox_figure_outside;
@@ -192,6 +208,13 @@ public class PlayView extends View {
                 blocks[(selected_block + 9) % 45].getChildren().add(s);
                 blocks[selected_block].getChildren().add(t);
                 selected_block = (selected_block + 9) % 45;
+            }
+        }
+        if (keyInput.isReleased(Key.J)) {
+            System.out.println("Pressed J");
+            if (selected_block != -1) {
+                System.out.println("selected_block: " + selected_block);
+                bloods[0].setProgress(bloods[0].getProgress()-0.1);
             }
         }
     }
