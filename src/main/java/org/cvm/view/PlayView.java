@@ -13,6 +13,8 @@ import org.cvm.input.Key;
 import org.cvm.input.KeyInput;
 import org.cvm.input.Mouse;
 import org.cvm.input.MouseInput;
+import org.cvm.net.CREATURE_MOVE_MSG;
+import org.cvm.net.Msg;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -37,7 +39,6 @@ public class PlayView extends View {
 
     @Override
     public void onLaunch() {
-        System.out.println("PlayView onLaunch");
 
         Group group = new Group();
         Image img_play_bg = new Image(getClass().getResourceAsStream("play_bg.png"));
@@ -150,13 +151,10 @@ public class PlayView extends View {
             System.out.println("Pressed ESC");
             app.gotoView("Home");
         }
-        if (keyInput.isPressed(Key.SPACE)) {
+        if (keyInput.isReleased(Key.SPACE)) {
             System.out.println("Pressed SPACE");
-            blocks[1].getChildren().remove(1);
-            ImageView img_figure = new ImageView(new Image(getClass().getResourceAsStream("../world/b1_left.png")));
-            img_figure.setFitWidth(70);
-            img_figure.setFitHeight(70);
-            blocks[1].getChildren().add(img_figure);
+            Msg msg = new CREATURE_MOVE_MSG(2,3);
+            netClient.send(msg);
         }
         if (keyInput.isReleased(Key.A)) {
             System.out.println("Pressed A");
@@ -225,11 +223,12 @@ public class PlayView extends View {
     }
 
     public void solve_entered(int k) {
-        System.out.println("You entered " + k);
+
+        //System.out.println("You entered " + k);
     }
 
     private void solve_exited(int k) {
-        System.out.println("You exited " + k);
+        //System.out.println("You exited " + k);
     }
 
     private void playBack() {

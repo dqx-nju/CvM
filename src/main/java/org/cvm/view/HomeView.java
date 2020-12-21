@@ -3,6 +3,7 @@ package org.cvm.view;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -19,6 +20,7 @@ import org.cvm.input.Mouse;
 
 import java.awt.*;
 import java.io.File;
+import java.util.Optional;
 
 import static org.cvm.Framework.*;
 import static org.cvm.Framework.mouseInput;
@@ -26,12 +28,15 @@ import static org.cvm.Framework.mouseInput;
 public class HomeView extends View {
 
     FileChooser fileChooser;
+    TextInputDialog loginDialog;
 
     @Override
     public void onLaunch() {
-        System.out.println("HomeView onLaunch");
 
         fileChooser = new FileChooser();
+        loginDialog = new TextInputDialog("127.0.0.1");
+        loginDialog.setTitle("连接服务器");
+        loginDialog.setContentText("请输入服务器ip地址：");
 
         Image img_play = new Image(getClass().getResourceAsStream("play.png"));
         Image img_play2 = new Image(getClass().getResourceAsStream("play2.png"));
@@ -44,7 +49,16 @@ public class HomeView extends View {
             img_play_view.setImage(img_play);
         });
         hbox_play.addEventHandler(MouseEvent.MOUSE_CLICKED,(event) -> {
-            app.gotoView("Play");
+            Optional<String> result = this.loginDialog.showAndWait();
+            if (result.isPresent()){
+                System.out.println("Your IP: " + result.get());
+                String IP = result.get().trim();
+                netClient.connect(IP);
+                app.gotoView("Play");
+            }
+            else {
+                System.out.println("Cancel PlayView");
+            }
         });
 
         Image img_exit = new Image(getClass().getResourceAsStream("exit.png"));
@@ -53,11 +67,9 @@ public class HomeView extends View {
         HBox hbox_exit = new HBox(img_exit_view);
         hbox_exit.addEventHandler(MouseEvent.MOUSE_ENTERED,(event) -> {
             img_exit_view.setImage(img_exit2);
-            System.out.println("111");
         });
         hbox_exit.addEventHandler(MouseEvent.MOUSE_EXITED,(event) -> {
             img_exit_view.setImage(img_exit);
-            System.out.println("222");
         });
         hbox_exit.addEventHandler(MouseEvent.MOUSE_CLICKED,(event) -> {
             app.exit();
@@ -111,7 +123,7 @@ public class HomeView extends View {
         }
         if (keyInput.isPressed(Key.ESCAPE)) {
             System.out.println("Pressed ESC");
-            app.exit();
+            System.exit(0);
         }
     }
 }

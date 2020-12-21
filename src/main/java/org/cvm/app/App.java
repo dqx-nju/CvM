@@ -12,6 +12,7 @@ import javafx.stage.WindowEvent;
 import org.cvm.Framework;
 import org.cvm.input.KeyInput;
 import org.cvm.input.MouseInput;
+import org.cvm.net.NetClient;
 import org.cvm.view.PlayView;
 import org.cvm.world.Team.CalabashbrotherTeam;
 
@@ -41,6 +42,8 @@ public class App {
 
     private CalabashbrotherTeam calabashbrotherTeam;
 
+    private NetClient netClient;
+
     public App(Stage stage) {
         file = null;
 
@@ -60,6 +63,7 @@ public class App {
         mouseInput = new MouseInput();
 
         calabashbrotherTeam = new CalabashbrotherTeam();
+        netClient = new NetClient();
 
         initFramework();
         initApp();
@@ -74,6 +78,7 @@ public class App {
         Framework.keyInput = keyInput;
         Framework.mouseInput = mouseInput;
         Framework.calabashbrotherTeam = calabashbrotherTeam;
+        Framework.netClient = netClient;
     }
 
     private final void initApp() {

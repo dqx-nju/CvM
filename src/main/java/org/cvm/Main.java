@@ -29,13 +29,14 @@ public class Main extends Game {
 
     @Override
     public void onFinish() {
-        System.out.println("Finish");
+        System.out.println("Main Finish");
     }
 
     @Override
     public boolean onExit() {
         engine.stop();
-        System.out.println("Exit");
+        System.out.println("Main Exit");
+        System.exit(0);
         return true;
     }
 }
