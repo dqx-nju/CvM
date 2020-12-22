@@ -142,67 +142,54 @@ public class PlayView extends View {
             netClient.send(msg);
         }
         if (keyInput.isReleased(Key.A)) {
-            System.out.println("Pressed A");
+            System.out.println("Released A");
             if (selected_block != -1) {
                 String move_left_str = calabashbrotherTeam.moveleft(selected_id);
-//                Node s = blocks[selected_block].getChildren().get(0);
-//                blocks[selected_block].getChildren().remove(0);
-//                Node t = blocks[selected_block - 1].getChildren().get(0);
-//                blocks[selected_block - 1].getChildren().remove(0);
-//                blocks[selected_block - 1].getChildren().add(s);
-//                blocks[selected_block].getChildren().add(t);
-//                selected_block -= 1;
                 System.out.println(move_left_str);
             }
         }
         if (keyInput.isReleased(Key.D)) {
-            System.out.println("Pressed D");
+            System.out.println("Released D");
             if (selected_block != -1) {
-                String move_left_str = calabashbrotherTeam.moveright(selected_id);
-                System.out.println(move_left_str);
-//                System.out.println("selected_block: " + selected_block);
-//                Node s = blocks[selected_block].getChildren().get(0);
-//                blocks[selected_block].getChildren().remove(0);
-//                Node t = blocks[selected_block + 1].getChildren().get(0);
-//                blocks[selected_block + 1].getChildren().remove(0);
-//                blocks[selected_block + 1].getChildren().add(s);
-//                blocks[selected_block].getChildren().add(t);
-//                selected_block += 1;
+                String move_right_str = calabashbrotherTeam.moveright(selected_id);
+                System.out.println(move_right_str);
             }
         }
         if (keyInput.isReleased(Key.W)) {
             System.out.println("Pressed W");
             if (selected_block != -1) {
-                System.out.println("selected_block: " + selected_block);
-                Node s = blocks[selected_block].getChildren().get(0);
-                blocks[selected_block].getChildren().remove(0);
-                Node t = blocks[(selected_block - 9 + 45) % 45].getChildren().get(0);
-                blocks[(selected_block - 9 + 45) % 45].getChildren().remove(0);
-                blocks[(selected_block - 9 + 45) % 45].getChildren().add(s);
-                blocks[selected_block].getChildren().add(t);
-                selected_block = (selected_block - 9 + 45) % 45;
+                String move_up_str = calabashbrotherTeam.moveup(selected_id);
+                System.out.println(move_up_str);
             }
         }
         if (keyInput.isReleased(Key.S)) {
             System.out.println("Pressed S");
             if (selected_block != -1) {
-                System.out.println("selected_block: " + selected_block);
-                Node s = blocks[selected_block].getChildren().get(0);
-                blocks[selected_block].getChildren().remove(0);
-                Node t = blocks[(selected_block + 9) % 45].getChildren().get(0);
-                blocks[(selected_block + 9) % 45].getChildren().remove(0);
-                blocks[(selected_block + 9) % 45].getChildren().add(s);
-                blocks[selected_block].getChildren().add(t);
-                selected_block = (selected_block + 9) % 45;
+                String move_down_str = calabashbrotherTeam.movedown(selected_id);
+                System.out.println(move_down_str);
             }
         }
-        if (keyInput.isReleased(Key.J)) {
+        if (keyInput.isReleased(Key.NUM1)) {
             System.out.println("Pressed J");
             if (selected_block != -1) {
-                System.out.println("selected_block: " + selected_block);
-                bloods[0].setProgress(bloods[0].getProgress()-0.1);
+                ;
             }
         }
+        if (keyInput.isReleased(Key.NUM2)) {
+            System.out.println("Pressed J");
+            if (selected_block != -1) {
+                ;
+            }
+        }
+    }
+
+    public void swap_block(int src,int dst) {
+        Node s = blocks[src].getChildren().get(0);
+        blocks[src].getChildren().remove(0);
+        Node t = blocks[dst].getChildren().get(0);
+        blocks[dst].getChildren().remove(0);
+        blocks[dst].getChildren().add(s);
+        blocks[src].getChildren().add(t);
     }
 
     public void solve_clicked(int k) {
