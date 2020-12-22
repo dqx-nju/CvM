@@ -11,13 +11,20 @@ import java.net.InetSocketAddress;
 
 public class CREATURE_DEAD_MSG implements Msg {
     private int MSGType = Msg.CREATURE_DEAD_MSG;
+    private int team;
     private int id;
 
     public CREATURE_DEAD_MSG(){
+        this.team = -1;
         this.id = -1;
     }
-    public CREATURE_DEAD_MSG(int id){
+    public CREATURE_DEAD_MSG(int team, int id){
+        this.team = team;
         this.id = id;
+    }
+
+    public int getTeam() {
+        return team;
     }
 
     public int getId() {
@@ -30,6 +37,7 @@ public class CREATURE_DEAD_MSG implements Msg {
         DataOutputStream dos = new DataOutputStream(baos);
         try {
             dos.writeInt(MSGType);
+            dos.writeInt(team);
             dos.writeInt(id);
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,7 +54,9 @@ public class CREATURE_DEAD_MSG implements Msg {
     @Override
     public void parse(DataInputStream dis) {
         try{
+            int team = dis.readInt();
             int id = dis.readInt();
+            this.team = team;
             this.id = id;
         } catch (IOException e) {
             e.printStackTrace();

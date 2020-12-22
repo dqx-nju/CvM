@@ -115,15 +115,25 @@ public class NetClient {
             }
             switch (msgType){//根据消息的类型调用对应消息的解析方法
                 case Msg.CREATURE_MOVE_MSG :
-                    CREATURE_MOVE_MSG msg = new CREATURE_MOVE_MSG();
-                    msg.parse(dis);
-                    System.out.print("id: " + msg.getId());
-                    System.out.println(" dir: " + msg.getDir());
+                    CREATURE_MOVE_MSG msg1 = new CREATURE_MOVE_MSG();
+                    msg1.parse(dis);
+                    System.out.print("team: " + msg1.getTeam());
+                    System.out.print(" id: " + msg1.getId());
+                    System.out.println(" dir: " + msg1.getDir());
                     break;
-//                case Msg.MISSILE_NEW_MSG:
-//                    msg = new MissileNewMsg(tc);
-//                    msg.parse(dis);
-//                    break;
+                case Msg.CREATURE_ATTACK_MSG:
+                    CREATURE_ATTACK_MSG msg2 = new CREATURE_ATTACK_MSG();
+                    msg2.parse(dis);
+                    System.out.print("team: " + msg2.getTeam());
+                    System.out.print(" id: " + msg2.getId());
+                    System.out.println(" dir: " + msg2.getAttack());
+                    break;
+                case Msg.CREATURE_DEAD_MSG:
+                    CREATURE_DEAD_MSG msg3 = new CREATURE_DEAD_MSG();
+                    msg3.parse(dis);
+                    System.out.print("team: " + msg3.getTeam());
+                    System.out.println(" id: " + msg3.getId());
+                    break;
 //                case Msg.TANK_DEAD_MSG:
 //                    msg = new TankDeadMsg(tc);
 //                    msg.parse(dis);

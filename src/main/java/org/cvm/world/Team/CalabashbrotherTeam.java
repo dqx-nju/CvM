@@ -48,18 +48,17 @@ public class CalabashbrotherTeam {
         teamSkillNumber=MaxTeamSkillNumber;
         teamActionnumber=MaxTeamAcitonNumber;
     }
-    public int[][] getallpostion(){
-        int[][] pos=new int[7][2];
+    public int[] getallpostion(){
+        int[] pos=new int[7];
         for(int i=0;i<list.size();i++){
-            pos[i][0]=list.get(i).posx;
-            pos[i][1]=list.get(i).posy;
+            pos[i]=list.get(i).posx*9+list.get(i).posy;
         }
         return pos;
     }
 
     public int getNo(int num){//返回葫芦娃参数No_X,范围1~7
-        int x=num%9;//行
-        int y=num-x;//列
+        int x=num/9;//行
+        int y=num%9;//列
         for(int i=0;i<list.size();i++){
             if(list.get(i).posx==x && list.get(i).posy==y){
                 return list.get(i).getNo_x();
@@ -113,7 +112,7 @@ public class CalabashbrotherTeam {
         if(CalabashbrotherTeam.haveCreature(x-1,y)||MonsterTeam.haveCreature(x-1,y)) return "";
         list.get(i).posx=x-1;
         teamActionnumber--;
-        return "CalabashBrother No."+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
+        return "CalabashBrother "+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
     }
     public String movedown(int No_x){
         if(teamActionnumber<=0) return "";

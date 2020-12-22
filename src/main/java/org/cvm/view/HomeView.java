@@ -72,7 +72,8 @@ public class HomeView extends View {
             img_exit_view.setImage(img_exit);
         });
         hbox_exit.addEventHandler(MouseEvent.MOUSE_CLICKED,(event) -> {
-            app.exit();
+            //app.exit();
+            app.gotoView("Play"); // TODO 测试
         });
 
         VBox box = new VBox(hbox_play, hbox_exit);

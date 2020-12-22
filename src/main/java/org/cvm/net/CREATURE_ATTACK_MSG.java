@@ -10,16 +10,23 @@ import java.net.InetSocketAddress;
 
 public class CREATURE_ATTACK_MSG implements Msg {
     private int MSGType = Msg.CREATURE_ATTACK_MSG;
+    private int team;
     private int id;
     private int attack;//技能 12
 
     public CREATURE_ATTACK_MSG(){
+        this.team = -1;
         this.id = -1;
         this.attack = -1;
     }
-    public CREATURE_ATTACK_MSG(int id, int attack){
+    public CREATURE_ATTACK_MSG(int team, int id, int attack){
+        this.team = team;
         this.id = id;
         this.attack = attack;
+    }
+
+    public int getTeam() {
+        return team;
     }
 
     public int getAttack() {
@@ -36,6 +43,7 @@ public class CREATURE_ATTACK_MSG implements Msg {
         DataOutputStream dos = new DataOutputStream(baos);
         try {
             dos.writeInt(MSGType);
+            dos.writeInt(team);
             dos.writeInt(id);
             dos.writeInt(attack);
         } catch (IOException e) {
@@ -53,8 +61,10 @@ public class CREATURE_ATTACK_MSG implements Msg {
     @Override
     public void parse(DataInputStream dis) {
         try{
+            int team = dis.readInt();
             int id = dis.readInt();
             int attack = dis.readInt();
+            this.team = team;
             this.id = id;
             this.attack = attack;
         } catch (IOException e) {

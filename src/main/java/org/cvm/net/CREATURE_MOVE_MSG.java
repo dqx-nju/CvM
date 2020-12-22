@@ -10,16 +10,23 @@ import java.net.InetSocketAddress;
 
 public class CREATURE_MOVE_MSG implements Msg {
     private int MSGType = Msg.CREATURE_MOVE_MSG;
+    private int team; // 12
     private int id;
     private int dir;//上下左右 1234
 
     public CREATURE_MOVE_MSG(){
+        this.team = -1;
         this.id = -1;
         this.dir = -1;
     }
-    public CREATURE_MOVE_MSG(int id, int dir){
+    public CREATURE_MOVE_MSG(int team,int id, int dir){
+        this.team = team;
         this.id = id;
         this.dir = dir;
+    }
+
+    public int getTeam() {
+        return team;
     }
 
     public int getDir() {
@@ -36,6 +43,7 @@ public class CREATURE_MOVE_MSG implements Msg {
         DataOutputStream dos = new DataOutputStream(baos);
         try {
             dos.writeInt(MSGType);
+            dos.writeInt(team);
             dos.writeInt(id);
             dos.writeInt(dir);
         } catch (IOException e) {
@@ -53,8 +61,10 @@ public class CREATURE_MOVE_MSG implements Msg {
     @Override
     public void parse(DataInputStream dis) {
         try{
+            int team = dis.readInt();
             int id = dis.readInt();
             int dir = dis.readInt();
+            this.team = team;
             this.id = id;
             this.dir = dir;
         } catch (IOException e) {
