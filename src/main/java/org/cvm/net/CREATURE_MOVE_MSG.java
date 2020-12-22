@@ -8,6 +8,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
+import static org.cvm.Framework.*;
+
 public class CREATURE_MOVE_MSG implements Msg {
     private int MSGType = Msg.CREATURE_MOVE_MSG;
     private int team; // 12
@@ -67,6 +69,11 @@ public class CREATURE_MOVE_MSG implements Msg {
             this.team = team;
             this.id = id;
             this.dir = dir;
+            String s = calabashbrotherTeam.moveup(id);
+            if (s != "") {
+                playView.swap_block(0,1);
+                System.out.println("lalalalallala d");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

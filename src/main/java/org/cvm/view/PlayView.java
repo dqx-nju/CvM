@@ -134,62 +134,58 @@ public class PlayView extends View {
         }
         if (keyInput.isReleased(Key.SPACE)) {
             System.out.println("Pressed SPACE");
-            Msg msg = new CREATURE_MOVE_MSG(1,2,3);
-            netClient.send(msg);
-            msg = new CREATURE_ATTACK_MSG(2,7,2);
-            netClient.send(msg);
-            msg = new CREATURE_DEAD_MSG(1,5);
-            netClient.send(msg);
         }
         if (keyInput.isReleased(Key.A)) {
             System.out.println("Released A");
             if (selected_block != -1) {
-                String move_left_str = calabashbrotherTeam.moveleft(selected_id);
-                System.out.println(move_left_str);
+                Msg msg = new CREATURE_MOVE_MSG(1,selected_id,3);
+                netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.D)) {
             System.out.println("Released D");
             if (selected_block != -1) {
-                String move_right_str = calabashbrotherTeam.moveright(selected_id);
-                System.out.println(move_right_str);
+                Msg msg = new CREATURE_MOVE_MSG(1,selected_id,4);
+                netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.W)) {
-            System.out.println("Pressed W");
+            System.out.println("Released W");
             if (selected_block != -1) {
-                String move_up_str = calabashbrotherTeam.moveup(selected_id);
-                System.out.println(move_up_str);
+                Msg msg = new CREATURE_MOVE_MSG(1,selected_id,1);
+                netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.S)) {
-            System.out.println("Pressed S");
+            System.out.println("Released S");
             if (selected_block != -1) {
-                String move_down_str = calabashbrotherTeam.movedown(selected_id);
-                System.out.println(move_down_str);
+                Msg msg = new CREATURE_MOVE_MSG(1,selected_id,2);
+                netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.NUM1)) {
             System.out.println("Pressed J");
             if (selected_block != -1) {
-                ;
+                Msg msg = new CREATURE_ATTACK_MSG(1,selected_id,1);
+                netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.NUM2)) {
             System.out.println("Pressed J");
             if (selected_block != -1) {
-                ;
+                Msg msg = new CREATURE_ATTACK_MSG(1,selected_id,2);
+                netClient.send(msg);
             }
         }
     }
 
     public void swap_block(int src,int dst) {
         Node s = blocks[src].getChildren().get(0);
-        blocks[src].getChildren().remove(0);
         Node t = blocks[dst].getChildren().get(0);
-        blocks[dst].getChildren().remove(0);
         blocks[dst].getChildren().add(s);
         blocks[src].getChildren().add(t);
+        blocks[src].getChildren().remove(0);
+        blocks[dst].getChildren().remove(0);
     }
 
     public void solve_clicked(int k) {

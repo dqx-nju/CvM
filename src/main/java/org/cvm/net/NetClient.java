@@ -1,6 +1,7 @@
 package org.cvm.net;
 
 
+import org.cvm.view.PlayView;
 import org.cvm.view.ServerView;
 
 import java.io.*;
@@ -8,6 +9,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+
+import static org.cvm.Framework.*;
 
 
 public class NetClient {

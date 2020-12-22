@@ -109,7 +109,7 @@ public class CalabashbrotherTeam {
         int x=c.posx;
         int y=c.posy;
         if(x-1<0) return "";
-        if(CalabashbrotherTeam.haveCreature(x-1,y)||MonsterTeam.haveCreature(x-1,y)) return "";
+        //if(CalabashbrotherTeam.haveCreature(x-1,y)||MonsterTeam.haveCreature(x-1,y)) return "";
         list.get(i).posx=x-1;
         teamActionnumber--;
         return "CalabashBrother "+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
@@ -128,7 +128,7 @@ public class CalabashbrotherTeam {
         int x=c.posx;
         int y=c.posy;
         if(x+1>4) return "";
-        if(CalabashbrotherTeam.haveCreature(x+1,y)||MonsterTeam.haveCreature(x+1,y)) return "";
+        //if(CalabashbrotherTeam.haveCreature(x+1,y)||MonsterTeam.haveCreature(x+1,y)) return "";
         list.get(i).posx=x+1;
         teamActionnumber--;
         return "CalabashBrother "+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
@@ -147,7 +147,7 @@ public class CalabashbrotherTeam {
         int x=c.posx;
         int y=c.posy;
         if(y-1<0) return "";
-        if(CalabashbrotherTeam.haveCreature(x,y-1)||MonsterTeam.haveCreature(x,y-1)) return "";
+        //if(CalabashbrotherTeam.haveCreature(x,y-1)||MonsterTeam.haveCreature(x,y-1)) return "";
         list.get(i).posy=y-1;
         teamActionnumber--;
         return "CalabashBrother "+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";
@@ -166,7 +166,7 @@ public class CalabashbrotherTeam {
         int x=c.posx;
         int y=c.posy;
         if(y+1>8) return "";
-        if(CalabashbrotherTeam.haveCreature(x,y+1)||MonsterTeam.haveCreature(x,y+1)) return "";
+        //if(CalabashbrotherTeam.haveCreature(x,y+1)||MonsterTeam.haveCreature(x,y+1)) return "";
         list.get(i).posy=y+1;
         teamActionnumber--;
         return "CalabashBrother "+No_x+" move to position: ["+list.get(i).posx+","+list.get(i).posy+"]";

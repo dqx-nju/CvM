@@ -9,6 +9,9 @@ import static org.cvm.Framework.app;
 import static org.cvm.Framework.engine;
 
 public class Main extends Game {
+
+    PlayView playView;
+
     @Override
     public void onLaunch() {
         app.setTitle("葫芦娃大战妖精");
@@ -17,8 +20,10 @@ public class Main extends Game {
         Image img_logo = new Image(getClass().getResourceAsStream("logo.png"));
         app.getStage().getIcons().add(img_logo);
 
+        playView = new PlayView();
+        Framework.playView = playView;
         app.regView("Home", new HomeView());
-        app.regView("Play", new PlayView());
+        app.regView("Play", playView);
         app.gotoView("Home");
         // app.gotoView("Play"); // 测试
     }

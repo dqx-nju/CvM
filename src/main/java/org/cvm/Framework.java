@@ -5,6 +5,7 @@ import org.cvm.app.Engine;
 import org.cvm.input.KeyInput;
 import org.cvm.input.MouseInput;
 import org.cvm.net.NetClient;
+import org.cvm.view.PlayView;
 import org.cvm.world.Team.CalabashbrotherTeam;
 
 public class Framework {
@@ -20,4 +21,6 @@ public class Framework {
     public static CalabashbrotherTeam calabashbrotherTeam;
 
     public static NetClient netClient;
+
+    public static PlayView playView;
 }
