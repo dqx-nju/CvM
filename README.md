@@ -1,3 +1,26 @@
+# 返回值
+
+1、move：
+
+返回 [int team, int id, int last_pos, int current_pos]
+
+- int team; // 1葫芦娃、2妖怪
+- int id; // 1-7
+- int last_pos; // 0-44
+- int current_pos; // 0-44
+
+2、attack
+
+返回二维数组
+
+[int team, int id, int last_blood, int current_blood, double blood]
+
+- int team; // 1葫芦娃、2妖怪
+- int id; // 1-7
+- int last_blood; // 之前的血量
+- int current_blood; // 现在的血量
+- double blood; // 现在血条长度，范围 0到1
+
 # CvM
 
 
