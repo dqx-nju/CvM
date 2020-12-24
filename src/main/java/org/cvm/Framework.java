@@ -3,10 +3,10 @@ package org.cvm;
 import org.cvm.app.App;
 import org.cvm.app.Engine;
 import org.cvm.input.KeyInput;
-import org.cvm.input.MouseInput;
 import org.cvm.net.NetClient;
 import org.cvm.view.PlayView;
 import org.cvm.world.Team.CalabashbrotherTeam;
+import org.cvm.world.Team.MonsterTeam;
 
 public class Framework {
 
@@ -16,9 +16,9 @@ public class Framework {
 
     public static KeyInput keyInput;
 
-    public static MouseInput mouseInput;
-
     public static CalabashbrotherTeam calabashbrotherTeam;
+
+    public static MonsterTeam monsterTeam;
 
     public static NetClient netClient;
 

@@ -9,7 +9,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import org.cvm.app.View;
 import org.cvm.input.Key;
-import org.cvm.input.Mouse;
 import org.cvm.net.ATTACK_MSG;
 import org.cvm.net.MOVE_MSG;
 import org.cvm.net.Msg;
@@ -18,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 
 import static org.cvm.Framework.*;
 
@@ -26,7 +26,8 @@ public class PlayView extends View {
     private File file;
     VBox vbox;
     VBox[] blocks;
-    ProgressBar[] bloods;
+    ProgressBar[] bloods_T1;
+    ProgressBar[] bloods_T2;
     int selected_id = -1;
     int selected_block = -1;
 
@@ -38,7 +39,8 @@ public class PlayView extends View {
     @Override
     public void onLaunch() {
 
-        int[] pos_45 = calabashbrotherTeam.getallpostion();
+        int[] pos_T1 = calabashbrotherTeam.getallpostion();
+        int[] pos_T2 = monsterTeam.getallpostion();
 
         Group group = new Group();
         Image img_play_bg = new Image(getClass().getResourceAsStream("play_bg.png"));
@@ -48,7 +50,8 @@ public class PlayView extends View {
         vbox = new VBox();
         vbox.setSpacing(10);
         blocks = new VBox[5 * 9];
-        bloods = new ProgressBar[7];
+        bloods_T1 = new ProgressBar[7];
+        bloods_T2 = new ProgressBar[7];
 
         for(int i = 0; i < 5; i++) {
             HBox hbox = new HBox();
@@ -66,14 +69,14 @@ public class PlayView extends View {
             vbox.getChildren().add(hbox);
         }
         for (int i = 0; i < 7; i++) {
-            int x = pos_45[i];
+            int x = pos_T1[i];
             VBox vbox_figure = new VBox();
             ImageView img_figure = new ImageView(new Image(getClass().getResourceAsStream("../world/b" + (i + 1) + "_right.png")));
             ProgressBar blood = new ProgressBar();
             blood.setPrefWidth(70);
             blood.setStyle("-fx-accent: red;");
             blood.setProgress(1);
-            bloods[0] = blood;
+            bloods_T1[i] = blood;
             img_figure.setFitWidth(70);
             img_figure.setFitHeight(66);
             vbox_figure.getChildren().add(blood);
@@ -82,7 +85,34 @@ public class PlayView extends View {
             blocks[x].getChildren().add(vbox_figure);
 
             blocks[x].addEventHandler(MouseEvent.MOUSE_CLICKED,(e) -> {
-                solve_clicked(x);
+                solve_clicked(x, 1);
+            });
+            blocks[x].addEventHandler(MouseEvent.MOUSE_ENTERED,(e) -> {
+                solve_entered(x);
+            });
+            blocks[x].addEventHandler(MouseEvent.MOUSE_EXITED, (e) -> {
+                solve_exited(x);
+            });
+        }
+
+        for (int i = 0; i < 7; i++) {
+            int x = pos_T2[i];
+            VBox vbox_figure = new VBox();
+            ImageView img_figure = new ImageView(new Image(getClass().getResourceAsStream("../world/m" + (i + 1) + "_left.png")));
+            ProgressBar blood = new ProgressBar();
+            blood.setPrefWidth(70);
+            blood.setStyle("-fx-accent: red;");
+            blood.setProgress(1);
+            bloods_T2[i] = blood;
+            img_figure.setFitWidth(70);
+            img_figure.setFitHeight(66);
+            vbox_figure.getChildren().add(blood);
+            vbox_figure.getChildren().add(img_figure);
+            blocks[x].getChildren().remove(0);
+            blocks[x].getChildren().add(vbox_figure);
+
+            blocks[x].addEventHandler(MouseEvent.MOUSE_CLICKED,(e) -> {
+                solve_clicked(x, 2);
             });
             blocks[x].addEventHandler(MouseEvent.MOUSE_ENTERED,(e) -> {
                 solve_entered(x);
@@ -117,7 +147,11 @@ public class PlayView extends View {
 
     @Override
     public void onUpdate(double time) {
-        if (mouseInput.isClicked(Mouse.RIGHT)) {
+//        Random r = new Random();
+//        if (r.nextInt(60) <= 5) {
+//            System.out.println("PlayView update random");
+//        }
+        if (keyInput.isReleased(Key.SPACE)) {
             System.out.println("Clicked RIGHT");
             selected_block = -1;
             selected_id = -1;
@@ -126,44 +160,45 @@ public class PlayView extends View {
             System.out.println("Pressed ESC");
             app.gotoView("Home");
         }
-        if (keyInput.isReleased(Key.SPACE)) {
-            System.out.println("Pressed SPACE");
-        }
         if (keyInput.isReleased(Key.A)) {
-            System.out.println("Released A");
+//            System.out.println("Released A");
             if (selected_block != -1) {
                 Msg msg = new MOVE_MSG(1,selected_id,3);
                 netClient.send(msg);
+                calabashbrotherTeam.TeamNewTurn();
             }
         }
         if (keyInput.isReleased(Key.D)) {
-            System.out.println("Released D");
+//            System.out.println("Released D");
             if (selected_block != -1) {
                 Msg msg = new MOVE_MSG(1,selected_id,4);
                 netClient.send(msg);
-                System.out.println("Send MOVE " + selected_id + " to Right");
+                calabashbrotherTeam.TeamNewTurn();
             }
         }
         if (keyInput.isReleased(Key.W)) {
-            System.out.println("Released W");
-            swap_block(10,11);
+//            System.out.println("Released W");
+            if (selected_block != -1) {
+                Msg msg = new MOVE_MSG(1,selected_id,1);
+                netClient.send(msg);
+                calabashbrotherTeam.TeamNewTurn();
+            }
         }
         if (keyInput.isReleased(Key.S)) {
-            System.out.println("Released S");
+//            System.out.println("Released S");
             if (selected_block != -1) {
                 Msg msg = new MOVE_MSG(1,selected_id,2);
                 netClient.send(msg);
+                calabashbrotherTeam.TeamNewTurn();
             }
         }
         if (keyInput.isReleased(Key.NUM1)) {
-            System.out.println("Pressed J");
             if (selected_block != -1) {
                 Msg msg = new ATTACK_MSG(1,selected_id,1);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.NUM2)) {
-            System.out.println("Pressed J");
             if (selected_block != -1) {
                 Msg msg = new ATTACK_MSG(1,selected_id,2);
                 netClient.send(msg);
@@ -181,10 +216,17 @@ public class PlayView extends View {
 
     }
 
-    public void solve_clicked(int k) {
-        selected_block = k;
-        selected_id = calabashbrotherTeam.getNo(k);
-        System.out.println("You clicked " + selected_id + " at " + k);
+    public void solve_clicked(int k, int team) {
+        if (team == 1) {
+            selected_block = k;
+            selected_id = calabashbrotherTeam.getNo(k);
+            System.out.println("You clicked b " + selected_id + " at " + k);
+        }
+        else {
+            selected_block = k;
+            selected_id = monsterTeam.getNo(k);
+            System.out.println("You clicked m " + selected_id + " at " + k);
+        }
     }
 
     public void solve_entered(int k) {

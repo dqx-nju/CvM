@@ -15,15 +15,12 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import org.cvm.app.View;
 import org.cvm.input.Key;
-import org.cvm.input.KeyInput;
-import org.cvm.input.Mouse;
 
 import java.awt.*;
 import java.io.File;
 import java.util.Optional;
 
 import static org.cvm.Framework.*;
-import static org.cvm.Framework.mouseInput;
 
 public class HomeView extends View {
 

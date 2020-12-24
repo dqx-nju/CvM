@@ -39,7 +39,7 @@ public class Main extends Game {
 
     @Override
     public boolean onExit() {
-        engine.stop();
+//        engine.stop();
         System.out.println("Main Exit");
         System.exit(0);
         return true;

@@ -11,10 +11,10 @@ import javafx.scene.layout.Pane;
 import javafx.stage.WindowEvent;
 import org.cvm.Framework;
 import org.cvm.input.KeyInput;
-import org.cvm.input.MouseInput;
 import org.cvm.net.NetClient;
 import org.cvm.view.PlayView;
 import org.cvm.world.Team.CalabashbrotherTeam;
+import org.cvm.world.Team.MonsterTeam;
 
 import java.io.File;
 import java.util.HashMap;
@@ -32,8 +32,6 @@ public class App {
 
     private final KeyInput keyInput;
 
-    private final MouseInput mouseInput;
-
     OnLaunch onLaunch;
     OnFinish onFinish;
     OnExit onExit;
@@ -41,6 +39,7 @@ public class App {
     private File file;
 
     private CalabashbrotherTeam calabashbrotherTeam;
+    private MonsterTeam monsterTeam;
 
     private NetClient netClient;
 
@@ -60,9 +59,8 @@ public class App {
 
         keyInput = new KeyInput();
 
-        mouseInput = new MouseInput();
-
         calabashbrotherTeam = new CalabashbrotherTeam();
+        monsterTeam = new MonsterTeam();
         netClient = new NetClient();
 
         initFramework();
@@ -76,8 +74,8 @@ public class App {
         Framework.app = this;
         Framework.engine = engine;
         Framework.keyInput = keyInput;
-        Framework.mouseInput = mouseInput;
         Framework.calabashbrotherTeam = calabashbrotherTeam;
+        Framework.monsterTeam = monsterTeam;
         Framework.netClient = netClient;
     }
 
@@ -101,6 +99,7 @@ public class App {
                 nv.onEnter();
             }
         });
+
     }
 
     private final void initEngine() {
@@ -109,23 +108,19 @@ public class App {
                 view.onStart();
             }
             keyInput.install(stage);
-            mouseInput.install(stage);
         };
         engine.onUpdate = (time) -> {
             View view = getCurrentView();
             if (view != null) {
                 view.onUpdate(time);
             }
-
             keyInput.refresh();
-            mouseInput.refresh();
         };
         engine.onStop = () -> {
             for( View view : viewMap.values()) {
                 view.onStop();
             }
             keyInput.uninstall(stage);
-            mouseInput.uninstall(stage);
         };
 //        stage.focusedProperty().addListener((o,ov,nv) -> {
 //            if(nv) {

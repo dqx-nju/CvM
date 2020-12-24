@@ -14,7 +14,7 @@ public class MonsterTeam {
     private Assault a;
 
     static List<Monster> list;
-    MonsterTeam(){
+    public MonsterTeam(){
         list=new ArrayList<Monster>();
         a=new Assault();
         Monster c1=new Monster(65,50,5,5,450,1);

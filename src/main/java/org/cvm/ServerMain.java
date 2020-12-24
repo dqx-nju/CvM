@@ -28,7 +28,7 @@ public class ServerMain extends Game {
 
     @Override
     public boolean onExit() {
-        engine.stop();
+//        engine.stop();
         System.out.println("ServerMain Exit");
         System.exit(0);
         return true;
