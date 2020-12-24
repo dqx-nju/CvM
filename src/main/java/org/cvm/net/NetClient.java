@@ -1,7 +1,6 @@
 package org.cvm.net;
 
 
-import org.cvm.view.PlayView;
 import org.cvm.view.ServerView;
 
 import java.io.*;
@@ -9,8 +8,6 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-
-import static org.cvm.Framework.*;
 
 
 public class NetClient {
@@ -117,26 +114,26 @@ public class NetClient {
                 e.printStackTrace();
             }
             switch (msgType){//根据消息的类型调用对应消息的解析方法
-                case Msg.CREATURE_MOVE_MSG :
-                    CREATURE_MOVE_MSG msg1 = new CREATURE_MOVE_MSG();
+                case Msg.MOVE_MSG :
+                    MOVE_MSG msg1 = new MOVE_MSG();
                     msg1.parse(dis);
                     System.out.print("team: " + msg1.getTeam());
                     System.out.print(" id: " + msg1.getId());
                     System.out.println(" dir: " + msg1.getDir());
                     break;
-                case Msg.CREATURE_ATTACK_MSG:
-                    CREATURE_ATTACK_MSG msg2 = new CREATURE_ATTACK_MSG();
-                    msg2.parse(dis);
-                    System.out.print("team: " + msg2.getTeam());
-                    System.out.print(" id: " + msg2.getId());
-                    System.out.println(" dir: " + msg2.getAttack());
-                    break;
-                case Msg.CREATURE_DEAD_MSG:
-                    CREATURE_DEAD_MSG msg3 = new CREATURE_DEAD_MSG();
-                    msg3.parse(dis);
-                    System.out.print("team: " + msg3.getTeam());
-                    System.out.println(" id: " + msg3.getId());
-                    break;
+//                case Msg.ATTACK_MSG:
+//                    ATTACK_MSG msg2 = new ATTACK_MSG();
+//                    msg2.parse(dis);
+//                    System.out.print("team: " + msg2.getTeam());
+//                    System.out.print(" id: " + msg2.getId());
+//                    System.out.println(" dir: " + msg2.getAttack());
+//                    break;
+//                case Msg.DEAD_MSG:
+//                    DEAD_MSG msg3 = new DEAD_MSG();
+//                    msg3.parse(dis);
+//                    System.out.print("team: " + msg3.getTeam());
+//                    System.out.println(" id: " + msg3.getId());
+//                    break;
 //                case Msg.TANK_DEAD_MSG:
 //                    msg = new TankDeadMsg(tc);
 //                    msg.parse(dis);

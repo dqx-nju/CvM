@@ -8,29 +8,33 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
-public class CREATURE_ATTACK_MSG implements Msg {
-    private int MSGType = Msg.CREATURE_ATTACK_MSG;
-    private int team;
-    private int id;
-    private int attack;//技能 12
+import javafx.application.Platform;
 
-    public CREATURE_ATTACK_MSG(){
+import static org.cvm.Framework.*;
+
+public class MOVE_MSG implements Msg {
+    private int MSGType = Msg.MOVE_MSG;
+    private int team; // 12
+    private int id;
+    private int dir;//上下左右 1234
+
+    public MOVE_MSG(){
         this.team = -1;
         this.id = -1;
-        this.attack = -1;
+        this.dir = -1;
     }
-    public CREATURE_ATTACK_MSG(int team, int id, int attack){
+    public MOVE_MSG(int team, int id, int dir){
         this.team = team;
         this.id = id;
-        this.attack = attack;
+        this.dir = dir;
     }
 
     public int getTeam() {
         return team;
     }
 
-    public int getAttack() {
-        return attack;
+    public int getDir() {
+        return dir;
     }
 
     public int getId() {
@@ -45,7 +49,7 @@ public class CREATURE_ATTACK_MSG implements Msg {
             dos.writeInt(MSGType);
             dos.writeInt(team);
             dos.writeInt(id);
-            dos.writeInt(attack);
+            dos.writeInt(dir);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,10 +67,20 @@ public class CREATURE_ATTACK_MSG implements Msg {
         try{
             int team = dis.readInt();
             int id = dis.readInt();
-            int attack = dis.readInt();
+            int dir = dis.readInt();
             this.team = team;
             this.id = id;
-            this.attack = attack;
+            this.dir = dir;
+            System.out.println("aa d");
+            if (dir == 4) {
+                String s = calabashbrotherTeam.moveright(id);
+                if (s != "") {
+                    Platform.runLater(() -> {
+                        playView.swap_block(10, 11);
+                        System.out.println("lalalalallala d");
+                    });
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

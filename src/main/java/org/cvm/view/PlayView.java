@@ -7,19 +7,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import org.cvm.app.View;
 import org.cvm.input.Key;
-import org.cvm.input.KeyInput;
 import org.cvm.input.Mouse;
-import org.cvm.input.MouseInput;
-import org.cvm.net.CREATURE_ATTACK_MSG;
-import org.cvm.net.CREATURE_DEAD_MSG;
-import org.cvm.net.CREATURE_MOVE_MSG;
+import org.cvm.net.ATTACK_MSG;
+import org.cvm.net.MOVE_MSG;
 import org.cvm.net.Msg;
-import org.cvm.world.Team.CalabashbrotherTeam;
 
-import java.awt.font.ImageGraphicAttribute;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -138,42 +132,40 @@ public class PlayView extends View {
         if (keyInput.isReleased(Key.A)) {
             System.out.println("Released A");
             if (selected_block != -1) {
-                Msg msg = new CREATURE_MOVE_MSG(1,selected_id,3);
+                Msg msg = new MOVE_MSG(1,selected_id,3);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.D)) {
             System.out.println("Released D");
             if (selected_block != -1) {
-                Msg msg = new CREATURE_MOVE_MSG(1,selected_id,4);
+                Msg msg = new MOVE_MSG(1,selected_id,4);
                 netClient.send(msg);
+                System.out.println("Send MOVE " + selected_id + " to Right");
             }
         }
         if (keyInput.isReleased(Key.W)) {
             System.out.println("Released W");
-            if (selected_block != -1) {
-                Msg msg = new CREATURE_MOVE_MSG(1,selected_id,1);
-                netClient.send(msg);
-            }
+            swap_block(10,11);
         }
         if (keyInput.isReleased(Key.S)) {
             System.out.println("Released S");
             if (selected_block != -1) {
-                Msg msg = new CREATURE_MOVE_MSG(1,selected_id,2);
+                Msg msg = new MOVE_MSG(1,selected_id,2);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.NUM1)) {
             System.out.println("Pressed J");
             if (selected_block != -1) {
-                Msg msg = new CREATURE_ATTACK_MSG(1,selected_id,1);
+                Msg msg = new ATTACK_MSG(1,selected_id,1);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.NUM2)) {
             System.out.println("Pressed J");
             if (selected_block != -1) {
-                Msg msg = new CREATURE_ATTACK_MSG(1,selected_id,2);
+                Msg msg = new ATTACK_MSG(1,selected_id,2);
                 netClient.send(msg);
             }
         }
@@ -181,11 +173,12 @@ public class PlayView extends View {
 
     public void swap_block(int src,int dst) {
         Node s = blocks[src].getChildren().get(0);
+        blocks[src].getChildren().remove(0);
         Node t = blocks[dst].getChildren().get(0);
+        blocks[dst].getChildren().remove(0);
         blocks[dst].getChildren().add(s);
         blocks[src].getChildren().add(t);
-        blocks[src].getChildren().remove(0);
-        blocks[dst].getChildren().remove(0);
+
     }
 
     public void solve_clicked(int k) {

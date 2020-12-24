@@ -1,5 +1,6 @@
 # CvM
 
+
 几个模块
 
 - 应用模块 app
@@ -7,6 +8,31 @@
 - 音频模块 audio
 - 世界模块 world
 - 网络模块 net
+
+## net 模块
+
+信息：
+
+MOVE_MSG:
+- int team; // 1葫芦娃、2妖怪
+- int id; // 1-7
+- int dir; //1234 上下左右
+
+ATTACK_MSG:
+- int team; // 1葫芦娃、2妖怪
+- int id; // 1-7
+- int attack; //1、2代表技能12
+
+DEAD_MSG:
+- int team; // 1葫芦娃、2妖怪
+- int id; // 1-7
+
+调用方式：
+
+```
+Msg msg = new ATTACK_MSG(1,7,2);
+netClient.send(msg);
+```
 
 ## 应用模块 app
 
