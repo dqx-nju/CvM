@@ -145,7 +145,7 @@ public class CalabashbrotherTeam {
         int x=c.posx;
         int y=c.posy;
         if(x-1<0) return a;
-        if(CalabashbrotherTeam.haveCreature(x-1,y)||MonsterTeam.haveCreature(x-1,y)) return a;
+        //if(CalabashbrotherTeam.haveCreature(x-1,y)||MonsterTeam.haveCreature(x-1,y)) return a;
         list.get(i).posx=x-1;
         teamActionnumber--;
         int[] arr=new int[3];
@@ -170,7 +170,7 @@ public class CalabashbrotherTeam {
         int x=c.posx;
         int y=c.posy;
         if(x+1>4) return a;
-        if(CalabashbrotherTeam.haveCreature(x+1,y)||MonsterTeam.haveCreature(x+1,y)) return a;
+        //if(CalabashbrotherTeam.haveCreature(x+1,y)||MonsterTeam.haveCreature(x+1,y)) return a;
         list.get(i).posx=x+1;
         teamActionnumber--;
         int[] arr=new int[3];
@@ -195,7 +195,7 @@ public class CalabashbrotherTeam {
         int x=c.posx;
         int y=c.posy;
         if(y-1<0) return a;
-        if(CalabashbrotherTeam.haveCreature(x,y-1)||MonsterTeam.haveCreature(x,y-1)) return a;
+        //if(CalabashbrotherTeam.haveCreature(x,y-1)||MonsterTeam.haveCreature(x,y-1)) return a;
         list.get(i).posy=y-1;
         teamActionnumber--;
         int[] arr=new int[3];
@@ -220,7 +220,7 @@ public class CalabashbrotherTeam {
         int x=c.posx;
         int y=c.posy;
         if(y+1>8) return a;
-        if(CalabashbrotherTeam.haveCreature(x,y+1)||MonsterTeam.haveCreature(x,y+1)) return a;
+        //if(CalabashbrotherTeam.haveCreature(x,y+1)||MonsterTeam.haveCreature(x,y+1)) return a;
         list.get(i).posy=y+1;
         teamActionnumber--;
         int[] arr=new int[3];

@@ -73,8 +73,8 @@ public class MOVE_MSG implements Msg {
             this.dir = dir;
             System.out.println("aa d");
             if (dir == 4) {
-                String s = calabashbrotherTeam.moveright(id);
-                if (s != "") {
+                int[] s = calabashbrotherTeam.moveright(id);
+                if (s[0] != -1) {
                     Platform.runLater(() -> {
                         playView.swap_block(10, 11);
                         System.out.println("lalalalallala d");
