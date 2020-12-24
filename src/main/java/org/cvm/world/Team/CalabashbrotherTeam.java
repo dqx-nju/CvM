@@ -144,14 +144,16 @@ public class CalabashbrotherTeam {
         if(i>=list.size()) return a;
         int x=c.posx;
         int y=c.posy;
+        int pos0=x*9+y;
         if(x-1<0) return a;
         //if(CalabashbrotherTeam.haveCreature(x-1,y)||MonsterTeam.haveCreature(x-1,y)) return a;
         list.get(i).posx=x-1;
         teamActionnumber--;
-        int[] arr=new int[3];
+        int[] arr=new int[4];
         arr[0]=1;//Team
         arr[1]=No_x;//brother number
-        arr[2]=list.get(i).posx*9+list.get(i).posy;//position
+        arr[2]=pos0;//origin position
+        arr[3]=list.get(i).posx*9+list.get(i).posy;//new position
         return arr;
     }
     public int[] movedown(int No_x){
@@ -169,14 +171,16 @@ public class CalabashbrotherTeam {
         if(i>=list.size()) return a;
         int x=c.posx;
         int y=c.posy;
+        int pos0=x*9+y;
         if(x+1>4) return a;
         //if(CalabashbrotherTeam.haveCreature(x+1,y)||MonsterTeam.haveCreature(x+1,y)) return a;
         list.get(i).posx=x+1;
         teamActionnumber--;
-        int[] arr=new int[3];
+        int[] arr=new int[4];
         arr[0]=1;//Team
         arr[1]=No_x;//brother number
-        arr[2]=list.get(i).posx*9+list.get(i).posy;//position
+        arr[2]=pos0;//origin position
+        arr[3]=list.get(i).posx*9+list.get(i).posy;//new position
         return arr;
     }
     public int[] moveleft(int No_x){
@@ -194,14 +198,16 @@ public class CalabashbrotherTeam {
         if(i>=list.size()) return a;
         int x=c.posx;
         int y=c.posy;
+        int pos0=x*9+y;
         if(y-1<0) return a;
         //if(CalabashbrotherTeam.haveCreature(x,y-1)||MonsterTeam.haveCreature(x,y-1)) return a;
         list.get(i).posy=y-1;
         teamActionnumber--;
-        int[] arr=new int[3];
+        int[] arr=new int[4];
         arr[0]=1;//Team
         arr[1]=No_x;//brother number
-        arr[2]=list.get(i).posx*9+list.get(i).posy;//position
+        arr[2]=pos0;//origin position
+        arr[3]=list.get(i).posx*9+list.get(i).posy;//new position
         return arr;
     }
     public int[] moveright(int No_x){
@@ -219,14 +225,16 @@ public class CalabashbrotherTeam {
         if(i>=list.size()) return a;
         int x=c.posx;
         int y=c.posy;
+        int pos0=x*9+y;
         if(y+1>8) return a;
         //if(CalabashbrotherTeam.haveCreature(x,y+1)||MonsterTeam.haveCreature(x,y+1)) return a;
         list.get(i).posy=y+1;
         teamActionnumber--;
-        int[] arr=new int[3];
+        int[] arr=new int[4];
         arr[0]=1;//Team
         arr[1]=No_x;//brother number
-        arr[2]=list.get(i).posx*9+list.get(i).posy;//position
+        arr[2]=pos0;//origin position
+        arr[3]=list.get(i).posx*9+list.get(i).posy;//new position
         return arr;
     }
     public static boolean haveCreature(int x,int y){
