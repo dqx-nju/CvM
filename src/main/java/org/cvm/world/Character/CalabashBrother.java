@@ -67,7 +67,6 @@ public class CalabashBrother extends Creature{
             case 6:{
                 skillname="六";//常规攻击，并小幅度提升我方护甲值，持续2回合
                 skilldescription="常规攻击，并小幅度提升我方护甲值，持续2回合";
-
                 field=new int[][]{{0,1}};
                 skillnumber=attack;
                 skillbufftime=1;
