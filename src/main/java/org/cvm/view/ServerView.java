@@ -3,6 +3,7 @@ package org.cvm.view;
 import javafx.scene.control.Label;
 import org.cvm.app.View;
 import org.cvm.net.ATTACK_MSG;
+import org.cvm.net.INFORM_MSG;
 import org.cvm.net.MOVE_MSG;
 import org.cvm.net.Msg;
 

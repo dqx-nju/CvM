@@ -42,6 +42,22 @@ public class CalabashbrotherTeam {
         teamSkillNumber=MaxTeamSkillNumber;
     }
 
+    public static int getMaxTeamAcitonNumber() {
+        return MaxTeamAcitonNumber;
+    }
+
+    public static int getMaxTeamSkillNumber() {
+        return MaxTeamSkillNumber;
+    }
+
+    public int getTeamActionnumber() {
+        return teamActionnumber;
+    }
+
+    public int getTeamSkillNumber() {
+        return teamSkillNumber;
+    }
+
     public void TeamNewTurn(){
         for(CalabashBrother c:list){
             c.newturn();

@@ -42,6 +42,22 @@ public class MonsterTeam {
         teamSkillNumber=MaxTeamSkillNumber;
     }
 
+    public static int getMaxTeamSkillNumber() {
+        return MaxTeamSkillNumber;
+    }
+
+    public int getTeamSkillNumber() {
+        return teamSkillNumber;
+    }
+
+    public int getTeamActionnumber() {
+        return teamActionnumber;
+    }
+
+    public static int getMaxTeamAcitonNumber() {
+        return MaxTeamAcitonNumber;
+    }
+
     public void TeamNewTurn(){
         for(Monster c:list){
             c.newturn();

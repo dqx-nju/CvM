@@ -74,8 +74,6 @@ public class ATTACK_MSG implements Msg {
             this.id = id;
             this.is_skill = is_skill;
             int op_team = (team == 1 ? 2 : 1);
-            calabashbrotherTeam.TeamNewTurn();
-            monsterTeam.TeamNewTurn();
             List<List<Integer>> result = (team == 1 ? calabashbrotherTeam.Doattack(id,is_skill) : monsterTeam.Doattack(id,is_skill));
             if (result.get(0).get(0) == -1) {
                 System.out.println("行动力/技能点不够");
@@ -89,22 +87,23 @@ public class ATTACK_MSG implements Msg {
                         int current_blood = result_in.get(3);
                         int max_blood = result_in.get(4);
                         double blood = (double)current_blood / (double)max_blood;
-                        System.out.println("attack_id: " + attack_id);
-                        System.out.println("damage: " + damage);
-                        System.out.println("current_blood: " + current_blood);
-                        System.out.println("max_blood: " + max_blood);
-                        System.out.println("blood: " + blood);
                         Msg msg = new BLOOD_MSG(op_team,attack_id,damage,current_blood,max_blood);
                         serverView.send(msg);
                         System.out.println("Server sent a blood_msg");
-//                        Platform.runLater(() -> {
-//                            playView.set_blood(op_team, attack_id, blood);
-//                        });
                     }
                     else {
                         System.out.println("Buff todo");
                     }
                 }
+            }
+
+            if (team == 1) {
+                INFORM_MSG inform_msg = new INFORM_MSG(team, calabashbrotherTeam.getTeamActionnumber(), calabashbrotherTeam.getTeamSkillNumber());
+                serverView.send(inform_msg, team);
+            }
+            else {
+                INFORM_MSG inform_msg = new INFORM_MSG(team, monsterTeam.getTeamActionnumber(), monsterTeam.getTeamSkillNumber());
+                serverView.send(inform_msg, team);
             }
         } catch (IOException e) {
             e.printStackTrace();

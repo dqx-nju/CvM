@@ -99,10 +99,6 @@ public class BLOOD_MSG implements Msg {
                 if (current_blood == 0) {
                     playView.delete_creature(team,id);
                 }
-                System.out.println("BLOOD_MSG in client");
-                System.out.println("team: " + team);
-                System.out.println("id: " + id);
-                System.out.println("blood: " + blood);
             });
         } catch (IOException e) {
             e.printStackTrace();

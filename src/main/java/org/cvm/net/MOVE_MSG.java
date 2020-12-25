@@ -75,8 +75,6 @@ public class MOVE_MSG implements Msg {
             this.team = team;
             this.id = id;
             this.dir = dir;
-            calabashbrotherTeam.TeamNewTurn();
-            monsterTeam.TeamNewTurn();
             switch (dir) {
                 case 1: {
                     int[] s = (team == 1 ? calabashbrotherTeam.moveup(id) : monsterTeam.moveup(id));
@@ -122,6 +120,16 @@ public class MOVE_MSG implements Msg {
                     System.out.println("error in MOVE_MSG");
                 }
             }
+
+            if (team == 1) {
+                INFORM_MSG inform_msg = new INFORM_MSG(team, calabashbrotherTeam.getTeamActionnumber(), calabashbrotherTeam.getTeamSkillNumber());
+                serverView.send(inform_msg, team);
+            }
+            else {
+                INFORM_MSG inform_msg = new INFORM_MSG(team, monsterTeam.getTeamActionnumber(), monsterTeam.getTeamSkillNumber());
+                serverView.send(inform_msg, team);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

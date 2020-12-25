@@ -124,6 +124,11 @@ public class NetClient {
                     BLOOD_MSG msg2 = new BLOOD_MSG();
                     msg2.parse(dis);
                     break;
+                case Msg.INFORM_MSG:
+                    System.out.println("Client received a inform_msg");
+                    INFORM_MSG msg3 = new INFORM_MSG();
+                    msg3.parse(dis);
+                    break;
             }
         }
     }

@@ -7,6 +7,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import org.cvm.app.View;
 import org.cvm.input.Key;
 import org.cvm.net.ATTACK_MSG;
@@ -23,6 +25,15 @@ import static org.cvm.Framework.*;
 
 public class PlayView extends View {
 
+    ImageView turn1_img = new ImageView(new Image(getClass().getResourceAsStream("turn1.png")));
+    ImageView turn2_img = new ImageView(new Image(getClass().getResourceAsStream("turn2.png")));
+    VBox turn_vbox = new VBox(turn1_img);
+
+    int teamSkillNumber;
+    int teamActionnumber;
+    Text action_text = new Text();
+    Text skill_text = new Text();
+
     private File file;
     VBox vbox;
     VBox[] blocks;
@@ -38,6 +49,13 @@ public class PlayView extends View {
     public PlayView() {
         super();
         file = null;
+    }
+
+    public void set_inform(int team, int action, int skill) {
+        teamActionnumber = action;
+        teamSkillNumber = skill;
+        action_text.setText(String.valueOf(teamActionnumber));
+        skill_text.setText(String.valueOf(teamSkillNumber));
     }
 
     public void setPos(int team, int id, int src, int dst) {
@@ -74,6 +92,9 @@ public class PlayView extends View {
 
     @Override
     public void onLaunch() {
+
+        teamSkillNumber = calabashbrotherTeam.getMaxTeamSkillNumber();
+        teamActionnumber = calabashbrotherTeam.getMaxTeamAcitonNumber();
 
         pos_T1 = calabashbrotherTeam.getallpostion();
         pos_T2 = monsterTeam.getallpostion();
@@ -145,7 +166,27 @@ public class PlayView extends View {
             });
         }
 
+        Text action = new Text("行动力: ");
+        Text skill = new Text("技能值: ");
+        action_text = new Text(String.valueOf(teamActionnumber));
+        skill_text = new Text(String.valueOf(teamSkillNumber));
+        action.setFont(Font.font(30));
+        skill.setFont(Font.font(30));
+        action_text.setFont(Font.font(30));
+        skill_text.setFont(Font.font(30));
+        HBox action_hbox = new HBox(action,action_text);
+        HBox skill_hbox = new HBox(skill,skill_text);
+        VBox action_skill_vbox = new VBox(action_hbox,skill_hbox);
+
         AnchorPane anchorPane = new AnchorPane();
+        anchorPane.getChildren().add(action_skill_vbox);
+        AnchorPane.setRightAnchor(action_skill_vbox, 60.0);
+        AnchorPane.setTopAnchor(action_skill_vbox, 60.0);
+
+        anchorPane.getChildren().add(turn_vbox);
+        AnchorPane.setLeftAnchor(turn_vbox, 10.0);
+        AnchorPane.setTopAnchor(turn_vbox, 10.0);
+
         anchorPane.getChildren().add(vbox);
         AnchorPane.setBottomAnchor(vbox, 60.0);
         AnchorPane.setRightAnchor(vbox, 60.0);
