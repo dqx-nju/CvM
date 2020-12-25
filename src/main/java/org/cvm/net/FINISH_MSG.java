@@ -9,6 +9,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
+import static org.cvm.Framework.*;
+
 public class FINISH_MSG implements Msg {
     private int MSGType = Msg.FINISH_MSG;
     private int team;
@@ -48,8 +50,20 @@ public class FINISH_MSG implements Msg {
         try{
             int team = dis.readInt();
             this.team = team;
-
-
+            if (team == 1) {
+                START_MSG start_msg = new START_MSG(2);
+                serverView.send(start_msg, 2);
+            }
+            else {
+                START_MSG start_msg = new START_MSG(1);
+                serverView.send(start_msg, 1);
+            }
+            monsterTeam.TeamNewTurn();
+            calabashbrotherTeam.TeamNewTurn();
+            INFORM_MSG inform_msg_1 = new INFORM_MSG(team, calabashbrotherTeam.getTeamActionnumber(), calabashbrotherTeam.getTeamSkillNumber());
+            serverView.send(inform_msg_1, team);
+            INFORM_MSG inform_msg_2 = new INFORM_MSG(team, monsterTeam.getTeamActionnumber(), monsterTeam.getTeamSkillNumber());
+            serverView.send(inform_msg_2, team);
         } catch (IOException e) {
             e.printStackTrace();
         }

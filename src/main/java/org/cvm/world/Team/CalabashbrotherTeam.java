@@ -415,7 +415,7 @@ public class CalabashbrotherTeam {
                         entry=new ArrayList<Integer>();
                         entry.add(2);//mean buff
                         entry.add(2);//mean team
-                        entry.add(list.get(arr.get(j)).getNo_x());//creature number
+                        entry.add(list.get(arr.get(j)-1).getNo_x());//creature number
                         entry.add(2);//mean attack(1)/armor(2) buff
                         entry.add(armorchange);
                         entry.add(c.getSkillbufftime());

@@ -1,6 +1,8 @@
 package org.cvm.net;
 
 
+import javafx.application.Platform;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -8,6 +10,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+
+import static org.cvm.Framework.playView;
 
 public class START_MSG implements Msg {
     private int MSGType = Msg.START_MSG;
@@ -48,7 +52,9 @@ public class START_MSG implements Msg {
         try{
             int team = dis.readInt();
             this.team = team;
-
+            Platform.runLater(() -> {
+                playView.start_turn(team);
+            });
         } catch (IOException e) {
             e.printStackTrace();
         }

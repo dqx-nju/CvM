@@ -129,6 +129,11 @@ public class NetClient {
                     INFORM_MSG msg3 = new INFORM_MSG();
                     msg3.parse(dis);
                     break;
+                case Msg.START_MSG:
+                    System.out.println("Client received a start_msg");
+                    START_MSG msg4 = new START_MSG();
+                    msg4.parse(dis);
+                    break;
             }
         }
     }

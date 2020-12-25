@@ -2,10 +2,7 @@ package org.cvm.view;
 
 import javafx.scene.control.Label;
 import org.cvm.app.View;
-import org.cvm.net.ATTACK_MSG;
-import org.cvm.net.INFORM_MSG;
-import org.cvm.net.MOVE_MSG;
-import org.cvm.net.Msg;
+import org.cvm.net.*;
 
 import java.awt.*;
 import java.io.ByteArrayInputStream;
@@ -74,6 +71,8 @@ public class ServerView extends View{
                 }
             }
         }
+        START_MSG start_msg = new START_MSG(1);
+        send(start_msg,1);
     }
 
     public void send(Msg msg){
@@ -125,6 +124,10 @@ public class ServerView extends View{
                 case Msg.ATTACK_MSG:
                     ATTACK_MSG msg2 = new ATTACK_MSG();
                     msg2.parse(dis);
+                    break;
+                case Msg.FINISH_MSG:
+                    FINISH_MSG msg3 = new FINISH_MSG();
+                    msg3.parse(dis);
                     break;
                 default:
                     System.out.println("TODO");

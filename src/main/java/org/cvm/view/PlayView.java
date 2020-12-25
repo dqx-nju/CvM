@@ -12,6 +12,7 @@ import javafx.scene.text.Text;
 import org.cvm.app.View;
 import org.cvm.input.Key;
 import org.cvm.net.ATTACK_MSG;
+import org.cvm.net.FINISH_MSG;
 import org.cvm.net.MOVE_MSG;
 import org.cvm.net.Msg;
 
@@ -27,7 +28,7 @@ public class PlayView extends View {
 
     ImageView turn1_img = new ImageView(new Image(getClass().getResourceAsStream("turn1.png")));
     ImageView turn2_img = new ImageView(new Image(getClass().getResourceAsStream("turn2.png")));
-    VBox turn_vbox = new VBox(turn1_img);
+    VBox turn_vbox = new VBox(turn2_img);
 
     int teamSkillNumber;
     int teamActionnumber;
@@ -56,6 +57,11 @@ public class PlayView extends View {
         teamSkillNumber = skill;
         action_text.setText(String.valueOf(teamActionnumber));
         skill_text.setText(String.valueOf(teamSkillNumber));
+    }
+
+    public void start_turn(int team) {
+        turn_vbox.getChildren().remove(0);
+        turn_vbox.getChildren().add(turn1_img);
     }
 
     public void setPos(int team, int id, int src, int dst) {
@@ -212,10 +218,10 @@ public class PlayView extends View {
     @Override
     public void onUpdate(double time) {
         if (keyInput.isReleased(Key.SPACE)) {
-            System.out.println("Clicked RIGHT");
-            selected_block = -1;
-            selected_id = -1;
-            selected_team = -1;
+            Msg msg = new FINISH_MSG(selected_team);
+            netClient.send(msg);
+            turn_vbox.getChildren().remove(0);
+            turn_vbox.getChildren().add(turn2_img);
         }
         if (keyInput.isPressed(Key.ESCAPE)) {
             System.out.println("Pressed ESC");
