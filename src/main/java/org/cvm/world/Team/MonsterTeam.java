@@ -288,8 +288,8 @@ public class MonsterTeam {
         array.add(entry);
         if(is_skill) {
             for (int j = 0; j < f.length; j++) {
-                if (CalabashbrotherTeam.haveCreature(x + f[j][0], y + f[j][1])) {
-                    CalabashBrother m = CalabashbrotherTeam.getCal(x + f[j][0], y + f[j][1]);
+                if (CalabashbrotherTeam.haveCreature(x - f[j][0], y - f[j][1])) {
+                    CalabashBrother m = CalabashbrotherTeam.getCal(x - f[j][0], y - f[j][1]);
                     Monster tmp=c;
                     tmp.setAttack(c.getSkillnumber());
                     int damage = a.DamageCaculate(tmp, m);
@@ -316,8 +316,8 @@ public class MonsterTeam {
                 case 1:{
                     for(int j=0;j<f.length;j++){
                         int armorchange=-(int)(c.getArmor()*0.7);
-                        if(CalabashbrotherTeam.haveCreature(x+f[j][0],y+f[j][1])){
-                            CalabashBrother m = CalabashbrotherTeam.getCal(x + f[j][0], y + f[j][1]);
+                        if(CalabashbrotherTeam.haveCreature(x-f[j][0],y-f[j][1])){
+                            CalabashBrother m = CalabashbrotherTeam.getCal(x - f[j][0], y - f[j][1]);
                             CalabashbrotherTeam.getArmorBuff(m.getNo_x(),armorchange,c.getSkillbufftime());
                             entry=new ArrayList<Integer>();
                             entry.add(2);//mean buff
