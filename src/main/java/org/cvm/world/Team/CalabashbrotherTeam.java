@@ -310,6 +310,7 @@ public class CalabashbrotherTeam {
         else entry.add(1);//skill choice
         array.add(entry);
         teamActionnumber--;
+        ifaction[No_x-1]=0;
         if(is_skill) {
             teamSkillNumber-=list.get(i).getSkillcost();
             if(teamSkillNumber<=0) teamSkillNumber=0;
