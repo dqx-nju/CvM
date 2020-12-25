@@ -45,7 +45,7 @@ public class PlayView extends View {
     int selected_id = -1;
     int selected_block = -1;
     int selected_team = -1;
-
+    boolean myturn = false;
 
     public PlayView() {
         super();
@@ -60,8 +60,20 @@ public class PlayView extends View {
     }
 
     public void start_turn(int team) {
+        selected_team = team;
+        selected_block = -1;
+        selected_id = -1;
+        myturn = true;
         turn_vbox.getChildren().remove(0);
         turn_vbox.getChildren().add(turn1_img);
+    }
+
+    public void finish_turn(int team) {
+        myturn = false;
+        Msg msg = new FINISH_MSG(selected_team);
+        netClient.send(msg);
+        turn_vbox.getChildren().remove(0);
+        turn_vbox.getChildren().add(turn2_img);
     }
 
     public void setPos(int team, int id, int src, int dst) {
@@ -218,47 +230,44 @@ public class PlayView extends View {
     @Override
     public void onUpdate(double time) {
         if (keyInput.isReleased(Key.SPACE)) {
-            Msg msg = new FINISH_MSG(selected_team);
-            netClient.send(msg);
-            turn_vbox.getChildren().remove(0);
-            turn_vbox.getChildren().add(turn2_img);
+            finish_turn(selected_team);
         }
         if (keyInput.isPressed(Key.ESCAPE)) {
             System.out.println("Pressed ESC");
             app.gotoView("Home");
         }
         if (keyInput.isReleased(Key.A)) {
-            if (selected_block != -1) {
+            if (selected_block != -1 && myturn == true) {
                 Msg msg = new MOVE_MSG(selected_team,selected_id,3);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.D)) {
-            if (selected_block != -1) {
+            if (selected_block != -1 && myturn == true) {
                 Msg msg = new MOVE_MSG(selected_team,selected_id,4);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.W)) {
-            if (selected_block != -1) {
+            if (selected_block != -1 && myturn == true) {
                 Msg msg = new MOVE_MSG(selected_team,selected_id,1);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.S)) {
-            if (selected_block != -1) {
+            if (selected_block != -1 && myturn == true) {
                 Msg msg = new MOVE_MSG(selected_team,selected_id,2);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.NUM1)) {
-            if (selected_block != -1) {
+            if (selected_block != -1 && myturn == true) {
                 Msg msg = new ATTACK_MSG(selected_team,selected_id,false);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.NUM2)) {
-            if (selected_block != -1) {
+            if (selected_block != -1 && myturn == true) {
                 Msg msg = new ATTACK_MSG(selected_team,selected_id,true);
                 netClient.send(msg);
             }
@@ -302,21 +311,23 @@ public class PlayView extends View {
     }
 
     public void solve_clicked(int k) {
-        selected_block = k;
-        int x = getNo(1,k);
-        int y = getNo(2,k);
-        if (x != -1) {
-            selected_team = 1;
-            selected_id = x;
-            System.out.println("You clicked b " + selected_id + " at " + k);
-        }
-        else if (y != -1) {
-            selected_team = 2;
-            selected_id = y;
-            System.out.println("You clicked m " + selected_id + " at " + k);
-        }
-        else {
-            System.out.println("You clicked nothing at " + k);
+        if(myturn == true) {
+            if (selected_team == 1) {
+                int x = getNo(1, k);
+                if (x != -1) {
+                    selected_id = x;
+                    selected_block = k;
+                    System.out.println("You clicked b " + selected_id + " at " + k);
+                }
+            }
+            else {
+                int x = getNo(2, k);
+                if (x != -1) {
+                    selected_id = x;
+                    selected_block = k;
+                    System.out.println("You clicked b " + selected_id + " at " + k);
+                }
+            }
         }
     }
 

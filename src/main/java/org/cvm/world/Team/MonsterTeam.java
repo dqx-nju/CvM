@@ -369,7 +369,7 @@ public class MonsterTeam {
                         entry=new ArrayList<Integer>();
                         entry.add(2);//mean buff
                         entry.add(1);//mean team
-                        entry.add(list.get(arr.get(j)).getNo_x());//creature number
+                        entry.add(list.get(arr.get(j)-1).getNo_x());//creature number
                         entry.add(1);//mean attack(1)/armor(2) buff
                         entry.add(attackchange);
                         entry.add(c.getSkillbufftime());
