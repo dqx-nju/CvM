@@ -4,16 +4,20 @@ import org.cvm.app.Game;
 import org.cvm.view.ServerView;
 
 import static org.cvm.Framework.app;
-import static org.cvm.Framework.engine;
 
 public class ServerMain extends Game {
+
+    ServerView serverView;
+
     @Override
     public void onLaunch() {
         app.setTitle("Server");
         app.setWidth(200);
         app.setHeight(400);
 
-        app.regView("Server", new ServerView());
+        serverView = new ServerView();
+        Framework.serverView = serverView;
+        app.regView("Server", serverView);
         app.gotoView("Server");
     }
 

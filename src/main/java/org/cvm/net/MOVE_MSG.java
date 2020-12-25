@@ -7,12 +7,15 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.net.SocketException;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
+import org.cvm.view.ServerView;
 
 import static org.cvm.Framework.*;
 
+// Client 发出的 MOVE 指令
 public class MOVE_MSG implements Msg {
     private int MSGType = Msg.MOVE_MSG;
     private int team; // 12
@@ -78,40 +81,44 @@ public class MOVE_MSG implements Msg {
                 case 1: {
                     int[] s = (team == 1 ? calabashbrotherTeam.moveup(id) : monsterTeam.moveup(id));
                     if (s[0] != -1) {
-                        Platform.setImplicitExit(false);
-                        Platform.runLater(() -> {
-                            playView.swap_block(s[2], s[3]);
-                        });
+                        int src = s[2];
+                        int dst = s[3];
+                        Msg msg = new S_MOVE_MSG(team,id,src,dst);
+                        serverView.send(msg);
+                        System.out.println("Server sent a s_move_msg");
                     }
                     break;
                 }
                 case 2: {
                     int[] s = (team == 1 ? calabashbrotherTeam.movedown(id) : monsterTeam.movedown(id));
                     if (s[0] != -1) {
-                        Platform.setImplicitExit(false);
-                        Platform.runLater(() -> {
-                            playView.swap_block(s[2], s[3]);
-                        });
+                        int src = s[2];
+                        int dst = s[3];
+                        Msg msg = new S_MOVE_MSG(team,id,src,dst);
+                        serverView.send(msg);
+                        System.out.println("Server sent a s_move_msg");
                     }
                     break;
                 }
                 case 3: {
                     int[] s = (team == 1 ? calabashbrotherTeam.moveleft(id) : monsterTeam.moveleft(id));
                     if (s[0] != -1) {
-                        Platform.setImplicitExit(false);
-                        Platform.runLater(() -> {
-                            playView.swap_block(s[2], s[3]);
-                        });
+                        int src = s[2];
+                        int dst = s[3];
+                        Msg msg = new S_MOVE_MSG(team,id,src,dst);
+                        serverView.send(msg);
+                        System.out.println("Server sent a s_move_msg");
                     }
                     break;
                 }
                 case 4: {
                     int[] s = (team == 1 ? calabashbrotherTeam.moveright(id) : monsterTeam.moveright(id));
                     if (s[0] != -1) {
-                        Platform.setImplicitExit(false);
-                        Platform.runLater(() -> {
-                            playView.swap_block(s[2], s[3]);
-                        });
+                        int src = s[2];
+                        int dst = s[3];
+                        Msg msg = new S_MOVE_MSG(team,id,src,dst);
+                        serverView.send(msg);
+                        System.out.println("Server sent a s_move_msg");
                     }
                     break;
                 }

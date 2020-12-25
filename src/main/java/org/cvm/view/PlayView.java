@@ -28,20 +28,34 @@ public class PlayView extends View {
     VBox[] blocks;
     ProgressBar[] bloods_T1;
     ProgressBar[] bloods_T2;
+    int[] pos_T1;
+    int[] pos_T2;
     int selected_id = -1;
     int selected_block = -1;
     int selected_team = -1;
+
 
     public PlayView() {
         super();
         file = null;
     }
 
+    public void setPos(int team, int id, int src, int dst) {
+        if (team == 1) {
+            assert(pos_T1[id-1] == src);
+            pos_T1[id-1] = dst;
+        }
+        else {
+            assert(pos_T2[id-1] == src);
+            pos_T2[id-1] = dst;
+        }
+    }
+
     @Override
     public void onLaunch() {
 
-        int[] pos_T1 = calabashbrotherTeam.getallpostion();
-        int[] pos_T2 = monsterTeam.getallpostion();
+        pos_T1 = calabashbrotherTeam.getallpostion();
+        pos_T2 = monsterTeam.getallpostion();
 
         Group group = new Group();
         Image img_play_bg = new Image(getClass().getResourceAsStream("play_bg.png"));
@@ -201,10 +215,28 @@ public class PlayView extends View {
         }
     }
 
+    public int getNo(int team, int k) {
+        if (team == 1) {
+            for (int i = 0; i < 7; i++) {
+                if (pos_T1[i] == k) {
+                    return i + 1;
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < 7; i++) {
+                if (pos_T2[i] == k) {
+                    return i + 1;
+                }
+            }
+        }
+        return -1;
+    }
+
     public void solve_clicked(int k) {
         selected_block = k;
-        int x = calabashbrotherTeam.getNo(k);
-        int y = monsterTeam.getNo(k);
+        int x = getNo(1,k);
+        int y = getNo(2,k);
         if (x != -1) {
             selected_team = 1;
             selected_id = x;

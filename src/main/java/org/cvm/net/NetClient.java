@@ -114,36 +114,16 @@ public class NetClient {
                 e.printStackTrace();
             }
             switch (msgType){//根据消息的类型调用对应消息的解析方法
-                case Msg.MOVE_MSG :
-                    MOVE_MSG msg1 = new MOVE_MSG();
+                case Msg.S_MOVE_MSG :
+                    System.out.println("Client received a s_move_msg");
+                    S_MOVE_MSG msg1 = new S_MOVE_MSG();
                     msg1.parse(dis);
                     break;
-                case Msg.ATTACK_MSG:
-                    ATTACK_MSG msg2 = new ATTACK_MSG();
+                case Msg.BLOOD_MSG:
+                    System.out.println("Client received a blood_msg");
+                    BLOOD_MSG msg2 = new BLOOD_MSG();
                     msg2.parse(dis);
                     break;
-//                case Msg.DEAD_MSG:
-//                    DEAD_MSG msg3 = new DEAD_MSG();
-//                    msg3.parse(dis);
-//                    System.out.print("team: " + msg3.getTeam());
-//                    System.out.println(" id: " + msg3.getId());
-//                    break;
-//                case Msg.TANK_DEAD_MSG:
-//                    msg = new TankDeadMsg(tc);
-//                    msg.parse(dis);
-//                    break;
-//                case Msg.MISSILE_DEAD_MSG:
-//                    msg = new MissileDeadMsg(tc);
-//                    msg.parse(dis);
-//                    break;
-//                case Msg.TANK_ALREADY_EXIST_MSG:
-//                    msg = new TankAlreadyExistMsg(tc);
-//                    msg.parse(dis);
-//                    break;
-//                case Msg.TANK_REDUCE_BLOOD_MSG:
-//                    msg = new TankReduceBloodMsg(tc);
-//                    msg.parse(dis);
-//                    break;
             }
         }
     }

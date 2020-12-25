@@ -5,6 +5,7 @@ import org.cvm.app.Engine;
 import org.cvm.input.KeyInput;
 import org.cvm.net.NetClient;
 import org.cvm.view.PlayView;
+import org.cvm.view.ServerView;
 import org.cvm.world.Team.CalabashbrotherTeam;
 import org.cvm.world.Team.MonsterTeam;
 
@@ -23,4 +24,6 @@ public class Framework {
     public static NetClient netClient;
 
     public static PlayView playView;
+
+    public static ServerView serverView;
 }

@@ -2,6 +2,9 @@ package org.cvm.view;
 
 import javafx.scene.control.Label;
 import org.cvm.app.View;
+import org.cvm.net.ATTACK_MSG;
+import org.cvm.net.MOVE_MSG;
+import org.cvm.net.Msg;
 
 import java.awt.*;
 import java.io.ByteArrayInputStream;
@@ -22,6 +25,7 @@ public class ServerView extends View{
     private Image offScreenImage = null;//服务器画布
     private static final int SERVER_HEIGHT = 500;
     private static final int SERVER_WIDTH = 300;
+    private DatagramSocket ds = null;
 
     @Override
     public void onLaunch() {
@@ -32,7 +36,6 @@ public class ServerView extends View{
     @Override
     public void onEnter() {
         new Thread(new UDPThread()).start();
-        new Thread(new TankDeadUDPThread()).start();
         ServerSocket ss = null;
         try {
             ss = new ServerSocket(TCP_PORT);//在TCP欢迎套接字上监听客户端连接
@@ -72,13 +75,21 @@ public class ServerView extends View{
         }
     }
 
+    public void send(Msg msg){
+        send(msg, 1);
+        send(msg, 2);
+    }
+
+    public void send(Msg msg, int team){
+        msg.send(ds, clients.get(team-1).IP, clients.get(team-1).UDP_PORT);
+    }
+
     private class UDPThread implements Runnable{
 
         byte[] buf = new byte[1024];
 
         @Override
         public void run() {
-            DatagramSocket ds = null;
             try{
                 ds = new DatagramSocket(ServerView.UDP_PORT);
             }catch (SocketException e) {
@@ -89,64 +100,39 @@ public class ServerView extends View{
                 DatagramPacket dp = new DatagramPacket(buf, buf.length);
                 try {
                     ds.receive(dp);
-                    for (Client c : clients){
-                        dp.setSocketAddress(new InetSocketAddress(c.IP, c.UDP_PORT));
-                        ds.send(dp);
-                    }
+                    parse(dp);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-    }
 
-    private class TankDeadUDPThread implements Runnable{
-        byte[] buf = new byte[300];
-        @Override
-        public void run() {
-            DatagramSocket ds = null;
-            try{
-                ds = new DatagramSocket(TANK_DEAD_UDP_PORT);
-            } catch (SocketException e) {
+        private void parse(DatagramPacket dp) {
+            ByteArrayInputStream bais = new ByteArrayInputStream(buf, 0, dp.getLength());
+            DataInputStream dis = new DataInputStream(bais);
+            int msgType = 0;
+            try {
+                msgType = dis.readInt();//获得消息类型
+            } catch (IOException e) {
                 e.printStackTrace();
             }
-            while(null != ds){
-                DatagramPacket dp = new DatagramPacket(buf, buf.length);
-                ByteArrayInputStream bais = null;
-                DataInputStream dis = null;
-                try{
-                    ds.receive(dp);
-                    bais = new ByteArrayInputStream(buf, 0, dp.getLength());
-                    dis = new DataInputStream(bais);
-                    int deadTankUDPPort = dis.readInt();
-                    for(int i = 0; i < clients.size(); i++){
-                        Client c = clients.get(i);
-                        if(c.UDP_PORT == deadTankUDPPort){
-                            clients.remove(c);
-                        }
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }finally {
-                    if (null != dis){
-                        try {
-                            dis.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    if(null != bais){
-                        try {
-                            bais.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
+            switch (msgType){//根据消息的类型调用对应消息的解析方法
+                case Msg.MOVE_MSG :
+                    System.out.println("Server received a move_msg");
+                    MOVE_MSG msg1 = new MOVE_MSG();
+                    msg1.parse(dis);
+                    break;
+                case Msg.ATTACK_MSG:
+                    System.out.println("Server received a attack_msg");
+                    ATTACK_MSG msg2 = new ATTACK_MSG();
+                    msg2.parse(dis);
+                    break;
+                default:
+                    System.out.println("TODO");
             }
         }
     }
+
 
     public class Client{
         String IP;

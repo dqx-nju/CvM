@@ -94,9 +94,12 @@ public class ATTACK_MSG implements Msg {
                         System.out.println("current_blood: " + current_blood);
                         System.out.println("max_blood: " + max_blood);
                         System.out.println("blood: " + blood);
-                        Platform.runLater(() -> {
-                            playView.set_blood(op_team, attack_id, blood);
-                        });
+                        Msg msg = new BLOOD_MSG(op_team,attack_id,damage,current_blood,max_blood);
+                        serverView.send(msg);
+                        System.out.println("Server sent a blood_msg");
+//                        Platform.runLater(() -> {
+//                            playView.set_blood(op_team, attack_id, blood);
+//                        });
                     }
                     else {
                         System.out.println("Buff todo");
