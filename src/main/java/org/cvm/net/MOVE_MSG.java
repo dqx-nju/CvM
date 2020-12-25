@@ -85,7 +85,6 @@ public class MOVE_MSG implements Msg {
                         int dst = s[3];
                         Msg msg = new S_MOVE_MSG(team,id,src,dst);
                         serverView.send(msg);
-                        System.out.println("Server sent a s_move_msg");
                     }
                     break;
                 }
@@ -96,7 +95,6 @@ public class MOVE_MSG implements Msg {
                         int dst = s[3];
                         Msg msg = new S_MOVE_MSG(team,id,src,dst);
                         serverView.send(msg);
-                        System.out.println("Server sent a s_move_msg");
                     }
                     break;
                 }
@@ -107,7 +105,6 @@ public class MOVE_MSG implements Msg {
                         int dst = s[3];
                         Msg msg = new S_MOVE_MSG(team,id,src,dst);
                         serverView.send(msg);
-                        System.out.println("Server sent a s_move_msg");
                     }
                     break;
                 }
@@ -118,7 +115,6 @@ public class MOVE_MSG implements Msg {
                         int dst = s[3];
                         Msg msg = new S_MOVE_MSG(team,id,src,dst);
                         serverView.send(msg);
-                        System.out.println("Server sent a s_move_msg");
                     }
                     break;
                 }

@@ -65,7 +65,7 @@ public class Monster extends Creature{
                 skillname="六";//常规攻击，我方所有角色护甲小幅度提升，持续两回合
                 skilldescription="常规攻击，我方所有角色护甲小幅度提升，持续两回合";
                 field=new int[][]{{0,1}};
-                skillnumber=(int)(missrate*0.2);
+                skillnumber=(int)(attack*1.2);
                 skillbufftime=2;
                 skillcost=2;
                 break;

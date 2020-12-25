@@ -118,12 +118,10 @@ public class ServerView extends View{
             }
             switch (msgType){//根据消息的类型调用对应消息的解析方法
                 case Msg.MOVE_MSG :
-                    System.out.println("Server received a move_msg");
                     MOVE_MSG msg1 = new MOVE_MSG();
                     msg1.parse(dis);
                     break;
                 case Msg.ATTACK_MSG:
-                    System.out.println("Server received a attack_msg");
                     ATTACK_MSG msg2 = new ATTACK_MSG();
                     msg2.parse(dis);
                     break;
