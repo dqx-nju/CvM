@@ -51,6 +51,27 @@ public class PlayView extends View {
         }
     }
 
+    public void delete_creature(int team, int id) {
+        VBox vbox_figure = new VBox();
+        ImageView img_figure = new ImageView();
+        img_figure.setFitWidth(70);
+        img_figure.setFitHeight(86);
+        vbox_figure.getChildren().add(img_figure);
+        int x = 0;
+        if (team == 1) {
+            x = pos_T1[id-1];
+            pos_T1[id-1] = -1;
+            bloods_T1[id-1] = null;
+        }
+        else {
+            x = pos_T2[id-1];
+            pos_T2[id-1] = -1;
+            bloods_T2[id-1] = null;
+        }
+        blocks[x].getChildren().remove(0);
+        blocks[x].getChildren().add(vbox_figure);
+    }
+
     @Override
     public void onLaunch() {
 
