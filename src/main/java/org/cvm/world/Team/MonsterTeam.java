@@ -302,6 +302,9 @@ public class MonsterTeam {
         if(is_skill) entry.add(2);
         else entry.add(1);//skill choice
         array.add(entry);
+        teamActionnumber--;
+        teamSkillNumber-=list.get(i).getSkillcost();
+        if(teamSkillNumber<=0) teamSkillNumber=0;
         if(is_skill) {
             for (int j = 0; j < f.length; j++) {
                 if (CalabashbrotherTeam.haveCreature(x - f[j][0], y - f[j][1])) {
