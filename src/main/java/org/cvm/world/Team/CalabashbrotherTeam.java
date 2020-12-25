@@ -17,6 +17,7 @@ public class CalabashbrotherTeam {
     public CalabashbrotherTeam(){
         list=new ArrayList<CalabashBrother>();
         a=new Assault();
+        ifaction=new int[7];
         for(int i=0;i<7;i++)
             ifaction[i]=1;//1=notdoattack 0=alreadyattack -1/othernumber=error
         CalabashBrother c1=new CalabashBrother(80,50,5,3,400,1);
