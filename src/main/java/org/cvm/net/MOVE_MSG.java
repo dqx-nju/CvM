@@ -9,6 +9,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 
 import static org.cvm.Framework.*;
 
@@ -72,6 +73,7 @@ public class MOVE_MSG implements Msg {
             this.id = id;
             this.dir = dir;
             System.out.println("In MOVE_MSG parse");
+            calabashbrotherTeam.TeamNewTurn();
             switch (dir) {
                 case 1: {
                     int[] s = calabashbrotherTeam.moveup(id);

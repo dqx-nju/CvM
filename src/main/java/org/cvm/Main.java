@@ -6,7 +6,6 @@ import org.cvm.view.HomeView;
 import org.cvm.view.PlayView;
 
 import static org.cvm.Framework.app;
-import static org.cvm.Framework.engine;
 
 public class Main extends Game {
 
