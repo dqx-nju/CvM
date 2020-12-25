@@ -2,21 +2,24 @@ package org.cvm.world.Team;
 import org.cvm.world.Buff.*;
 import org.cvm.world.Character.*;
 import org.cvm.world.Algorithm.*;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Collection;
+
 public class CalabashbrotherTeam {
     static final int MaxTeamSkillNumber=10;
     private int teamSkillNumber;
     static final int MaxTeamAcitonNumber=15;
     private int teamActionnumber;
+    static private int[] ifaciton;
     static List<CalabashBrother> list;
     private Assault a;
     public CalabashbrotherTeam(){
         list=new ArrayList<CalabashBrother>();
         a=new Assault();
+        ifaciton=new int[7];
+        for(int i=0;i<7;i++)
+            ifaciton[i]=1;//1=notdoattack 0=alreadyattack -1/othernumber=error
         CalabashBrother c1=new CalabashBrother(80,50,5,3,400,1);
         CalabashBrother c2=new CalabashBrother(40,40,5,7,300,2);
         CalabashBrother c3=new CalabashBrother(60,100,5,1,500,3);
@@ -62,6 +65,8 @@ public class CalabashbrotherTeam {
         for(CalabashBrother c:list){
             c.newturn();
         }
+        for(int i=0;i<7;i++)
+            if (ifaciton[i]==0) ifaciton[i]=1;//1=notdoattack 0=alreadyattack -1/othernumber=error
         teamSkillNumber=MaxTeamSkillNumber;
         teamActionnumber=MaxTeamAcitonNumber;
     }
@@ -100,6 +105,7 @@ public class CalabashbrotherTeam {
         for(int i=0;i<list.size();i++){
             if(list.get(i).getNo_x()==No_x){
                 list.remove(i);
+                ifaciton[No_x-1]=-1;
                 break;
             }
         }
@@ -290,6 +296,7 @@ public class CalabashbrotherTeam {
             if (list.get(i).getNo_x() == No_x) break;
         }
         if (i >= list.size()) return A;
+        if(ifaciton[No_x-1]!=1) return A;
         if(teamActionnumber<=0) return A;
         CalabashBrother c=list.get(i);
         if(is_skill && c.getSkillcost()>teamSkillNumber) return A;
@@ -303,9 +310,9 @@ public class CalabashbrotherTeam {
         else entry.add(1);//skill choice
         array.add(entry);
         teamActionnumber--;
-        teamSkillNumber-=list.get(i).getSkillcost();
-        if(teamSkillNumber<=0) teamSkillNumber=0;
         if(is_skill) {
+            teamSkillNumber-=list.get(i).getSkillcost();
+            if(teamSkillNumber<=0) teamSkillNumber=0;
             for (int j = 0; j < f.length; j++) {
                 if (MonsterTeam.haveCreature(x + f[j][0], y + f[j][1])) {
                     Monster m = MonsterTeam.getMon(x + f[j][0], y + f[j][1]);

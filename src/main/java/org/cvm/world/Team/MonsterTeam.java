@@ -11,12 +11,14 @@ public class MonsterTeam {
     private int teamSkillNumber;
     static final int MaxTeamAcitonNumber=15;
     private int teamActionnumber;
-    private Assault a;
-
+    static private int[] ifaciton;
     static List<Monster> list;
+    private Assault a;
     public MonsterTeam(){
         list=new ArrayList<Monster>();
         a=new Assault();
+        for(int i=0;i<7;i++)
+            ifaciton[i]=1;//1=notdoattack 0=alreadyattack -1/othernumber=error
         Monster c1=new Monster(65,50,5,5,450,1);
         Monster c2=new Monster(35,70,5,7,350,2);
         Monster c3=new Monster(50,100,5,1,550,3);
@@ -62,6 +64,8 @@ public class MonsterTeam {
         for(Monster c:list){
             c.newturn();
         }
+        for(int i=0;i<7;i++)
+            if (ifaciton[i]==0) ifaciton[i]=1;//1=notdoattack 0=alreadyattack -1/othernumber=error
         teamSkillNumber=MaxTeamSkillNumber;
         teamActionnumber=MaxTeamAcitonNumber;
     }
@@ -100,6 +104,7 @@ public class MonsterTeam {
         for(int i=0;i<list.size();i++){
             if(list.get(i).getNo_x()==No_x){
                 list.remove(i);
+                ifaciton[No_x-1]=-1;
                 break;
             }
         }
@@ -290,6 +295,7 @@ public class MonsterTeam {
             if (list.get(i).getNo_x() == No_x) break;
         }
         if (i >= list.size()) return A;
+        if(ifaciton[No_x-1]!=1) return A;
         if(teamActionnumber<=0) return A;
         Monster c=list.get(i);
         if(is_skill && c.getSkillcost()>teamSkillNumber) return A;
@@ -303,9 +309,9 @@ public class MonsterTeam {
         else entry.add(1);//skill choice
         array.add(entry);
         teamActionnumber--;
-        teamSkillNumber-=list.get(i).getSkillcost();
-        if(teamSkillNumber<=0) teamSkillNumber=0;
         if(is_skill) {
+            teamSkillNumber-=list.get(i).getSkillcost();
+            if(teamSkillNumber<=0) teamSkillNumber=0;
             for (int j = 0; j < f.length; j++) {
                 if (CalabashbrotherTeam.haveCreature(x - f[j][0], y - f[j][1])) {
                     CalabashBrother m = CalabashbrotherTeam.getCal(x - f[j][0], y - f[j][1]);
