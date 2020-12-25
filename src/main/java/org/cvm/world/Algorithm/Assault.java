@@ -17,13 +17,12 @@ public class Assault {
         for(AttackBuff att:attackBuffs){
             Attackbuffnumber=Attackbuffnumber+att.getAttackChange();
         }
-        if(Attackbuffnumber==0) return 0;
         for(ArmorBuff arm:armorBuffs){
             Armorbuffnumber=Armorbuffnumber+arm.getArmorChange();
         }
         Attack=Attack+Armorbuffnumber;
         Armor=Armor+Armorbuffnumber;
-        if(Armor<=0) return Attack;
+        if(Armor<=0) finaldamage=Attack;
         else finaldamage=(int)(Attack/(1+(Armor/100)));
         if(ifcritical(attacker)) finaldamage=(int)(finaldamage*1.5);
         if(ifmiss(defenser)) return -1;
