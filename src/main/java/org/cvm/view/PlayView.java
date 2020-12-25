@@ -30,6 +30,7 @@ public class PlayView extends View {
     ProgressBar[] bloods_T2;
     int selected_id = -1;
     int selected_block = -1;
+    int selected_team = -1;
 
     public PlayView() {
         super();
@@ -60,7 +61,7 @@ public class PlayView extends View {
                 VBox vbox_figure = new VBox();
                 ImageView img_figure = new ImageView();
                 img_figure.setFitWidth(70);
-                img_figure.setFitHeight(66);
+                img_figure.setFitHeight(86);
                 vbox_figure.getChildren().add(img_figure);
                 VBox vbox_figure_outside = new VBox(vbox_figure);
                 hbox.getChildren().add(vbox_figure_outside);
@@ -83,16 +84,6 @@ public class PlayView extends View {
             vbox_figure.getChildren().add(img_figure);
             blocks[x].getChildren().remove(0);
             blocks[x].getChildren().add(vbox_figure);
-
-            blocks[x].addEventHandler(MouseEvent.MOUSE_CLICKED,(e) -> {
-                solve_clicked(x, 1);
-            });
-            blocks[x].addEventHandler(MouseEvent.MOUSE_ENTERED,(e) -> {
-                solve_entered(x);
-            });
-            blocks[x].addEventHandler(MouseEvent.MOUSE_EXITED, (e) -> {
-                solve_exited(x);
-            });
         }
 
         for (int i = 0; i < 7; i++) {
@@ -110,15 +101,12 @@ public class PlayView extends View {
             vbox_figure.getChildren().add(img_figure);
             blocks[x].getChildren().remove(0);
             blocks[x].getChildren().add(vbox_figure);
+        }
 
-            blocks[x].addEventHandler(MouseEvent.MOUSE_CLICKED,(e) -> {
-                solve_clicked(x, 2);
-            });
-            blocks[x].addEventHandler(MouseEvent.MOUSE_ENTERED,(e) -> {
-                solve_entered(x);
-            });
-            blocks[x].addEventHandler(MouseEvent.MOUSE_EXITED, (e) -> {
-                solve_exited(x);
+        for(int i = 0; i < 45; i++) {
+            int finalI = i;
+            blocks[i].addEventHandler(MouseEvent.MOUSE_CLICKED,(e) -> {
+                solve_clicked(finalI);
             });
         }
 
@@ -147,49 +135,38 @@ public class PlayView extends View {
 
     @Override
     public void onUpdate(double time) {
-//        Random r = new Random();
-//        if (r.nextInt(60) <= 5) {
-//            System.out.println("PlayView update random");
-//        }
         if (keyInput.isReleased(Key.SPACE)) {
             System.out.println("Clicked RIGHT");
             selected_block = -1;
             selected_id = -1;
+            selected_team = -1;
         }
         if (keyInput.isPressed(Key.ESCAPE)) {
             System.out.println("Pressed ESC");
             app.gotoView("Home");
         }
         if (keyInput.isReleased(Key.A)) {
-//            System.out.println("Released A");
             if (selected_block != -1) {
-                Msg msg = new MOVE_MSG(1,selected_id,3);
+                Msg msg = new MOVE_MSG(selected_team,selected_id,3);
                 netClient.send(msg);
-                calabashbrotherTeam.TeamNewTurn();
             }
         }
         if (keyInput.isReleased(Key.D)) {
-//            System.out.println("Released D");
             if (selected_block != -1) {
-                Msg msg = new MOVE_MSG(1,selected_id,4);
+                Msg msg = new MOVE_MSG(selected_team,selected_id,4);
                 netClient.send(msg);
-                calabashbrotherTeam.TeamNewTurn();
             }
         }
         if (keyInput.isReleased(Key.W)) {
-//            System.out.println("Released W");
             if (selected_block != -1) {
-                Msg msg = new MOVE_MSG(1,selected_id,1);
+                Msg msg = new MOVE_MSG(selected_team,selected_id,1);
                 netClient.send(msg);
-                calabashbrotherTeam.TeamNewTurn();
             }
         }
         if (keyInput.isReleased(Key.S)) {
-//            System.out.println("Released S");
             if (selected_block != -1) {
-                Msg msg = new MOVE_MSG(1,selected_id,2);
+                Msg msg = new MOVE_MSG(selected_team,selected_id,2);
                 netClient.send(msg);
-                calabashbrotherTeam.TeamNewTurn();
             }
         }
         if (keyInput.isReleased(Key.NUM1)) {
@@ -216,25 +193,23 @@ public class PlayView extends View {
 
     }
 
-    public void solve_clicked(int k, int team) {
-        if (team == 1) {
-            selected_block = k;
-            selected_id = calabashbrotherTeam.getNo(k);
+    public void solve_clicked(int k) {
+        selected_block = k;
+        int x = calabashbrotherTeam.getNo(k);
+        int y = monsterTeam.getNo(k);
+        if (x != -1) {
+            selected_team = 1;
+            selected_id = x;
             System.out.println("You clicked b " + selected_id + " at " + k);
         }
-        else {
-            selected_block = k;
-            selected_id = monsterTeam.getNo(k);
+        else if (y != -1) {
+            selected_team = 2;
+            selected_id = y;
             System.out.println("You clicked m " + selected_id + " at " + k);
         }
-    }
-
-    public void solve_entered(int k) {
-        //System.out.println("You entered " + k);
-    }
-
-    private void solve_exited(int k) {
-        //System.out.println("You exited " + k);
+        else {
+            System.out.println("You clicked nothing at " + k);
+        }
     }
 
     private void playBack() {

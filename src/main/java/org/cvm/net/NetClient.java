@@ -117,9 +117,6 @@ public class NetClient {
                 case Msg.MOVE_MSG :
                     MOVE_MSG msg1 = new MOVE_MSG();
                     msg1.parse(dis);
-                    System.out.print("team: " + msg1.getTeam());
-                    System.out.print(" id: " + msg1.getId());
-                    System.out.println(" dir: " + msg1.getDir());
                     break;
 //                case Msg.ATTACK_MSG:
 //                    ATTACK_MSG msg2 = new ATTACK_MSG();

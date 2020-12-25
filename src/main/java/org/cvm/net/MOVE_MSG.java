@@ -72,53 +72,45 @@ public class MOVE_MSG implements Msg {
             this.team = team;
             this.id = id;
             this.dir = dir;
-            System.out.println("In MOVE_MSG parse");
             calabashbrotherTeam.TeamNewTurn();
+            monsterTeam.TeamNewTurn();
             switch (dir) {
                 case 1: {
-                    int[] s = calabashbrotherTeam.moveup(id);
-                    System.out.println("In MOVE_MSG parse 1");
+                    int[] s = (team == 1 ? calabashbrotherTeam.moveup(id) : monsterTeam.moveup(id));
                     if (s[0] != -1) {
                         Platform.setImplicitExit(false);
                         Platform.runLater(() -> {
                             playView.swap_block(s[2], s[3]);
-                            System.out.println("MOVE FROM " + s[2] + " TO " + s[3]);
                         });
                     }
                     break;
                 }
                 case 2: {
-                    int[] s = calabashbrotherTeam.movedown(id);
-                    System.out.println("In MOVE_MSG parse 2");
+                    int[] s = (team == 1 ? calabashbrotherTeam.movedown(id) : monsterTeam.movedown(id));
                     if (s[0] != -1) {
                         Platform.setImplicitExit(false);
                         Platform.runLater(() -> {
                             playView.swap_block(s[2], s[3]);
-                            System.out.println("MOVE FROM " + s[2] + " TO " + s[3]);
                         });
                     }
                     break;
                 }
                 case 3: {
-                    int[] s = calabashbrotherTeam.moveleft(id);
-                    System.out.println("In MOVE_MSG parse 3");
+                    int[] s = (team == 1 ? calabashbrotherTeam.moveleft(id) : monsterTeam.moveleft(id));
                     if (s[0] != -1) {
                         Platform.setImplicitExit(false);
                         Platform.runLater(() -> {
                             playView.swap_block(s[2], s[3]);
-                            System.out.println("MOVE FROM " + s[2] + " TO " + s[3]);
                         });
                     }
                     break;
                 }
                 case 4: {
-                    int[] s = calabashbrotherTeam.moveright(id);
-                    System.out.println("In MOVE_MSG parse 4");
+                    int[] s = (team == 1 ? calabashbrotherTeam.moveright(id) : monsterTeam.moveright(id));
                     if (s[0] != -1) {
                         Platform.setImplicitExit(false);
                         Platform.runLater(() -> {
                             playView.swap_block(s[2], s[3]);
-                            System.out.println("MOVE FROM " + s[2] + " TO " + s[3]);
                         });
                     }
                     break;
