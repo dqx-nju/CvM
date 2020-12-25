@@ -11,15 +11,14 @@ public class CalabashbrotherTeam {
     private int teamSkillNumber;
     static final int MaxTeamAcitonNumber=15;
     private int teamActionnumber;
-    static private int[] ifaciton;
+    static private int[] ifaction;
     static List<CalabashBrother> list;
     private Assault a;
     public CalabashbrotherTeam(){
         list=new ArrayList<CalabashBrother>();
         a=new Assault();
-        ifaciton=new int[7];
         for(int i=0;i<7;i++)
-            ifaciton[i]=1;//1=notdoattack 0=alreadyattack -1/othernumber=error
+            ifaction[i]=1;//1=notdoattack 0=alreadyattack -1/othernumber=error
         CalabashBrother c1=new CalabashBrother(80,50,5,3,400,1);
         CalabashBrother c2=new CalabashBrother(40,40,5,7,300,2);
         CalabashBrother c3=new CalabashBrother(60,100,5,1,500,3);
@@ -66,7 +65,7 @@ public class CalabashbrotherTeam {
             c.newturn();
         }
         for(int i=0;i<7;i++)
-            if (ifaciton[i]==0) ifaciton[i]=1;//1=notdoattack 0=alreadyattack -1/othernumber=error
+            if (ifaction[i]==0) ifaction[i]=1;//1=notdoattack 0=alreadyattack -1/othernumber=error
         teamSkillNumber=MaxTeamSkillNumber;
         teamActionnumber=MaxTeamAcitonNumber;
     }
@@ -105,7 +104,7 @@ public class CalabashbrotherTeam {
         for(int i=0;i<list.size();i++){
             if(list.get(i).getNo_x()==No_x){
                 list.remove(i);
-                ifaciton[No_x-1]=-1;
+                ifaction[No_x-1]=-1;
                 break;
             }
         }
@@ -296,7 +295,7 @@ public class CalabashbrotherTeam {
             if (list.get(i).getNo_x() == No_x) break;
         }
         if (i >= list.size()) return A;
-        if(ifaciton[No_x-1]!=1) return A;
+        if(ifaction[No_x-1]!=1) return A;
         if(teamActionnumber<=0) return A;
         CalabashBrother c=list.get(i);
         if(is_skill && c.getSkillcost()>teamSkillNumber) return A;
