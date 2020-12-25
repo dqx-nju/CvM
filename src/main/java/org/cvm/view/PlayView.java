@@ -171,13 +171,13 @@ public class PlayView extends View {
         }
         if (keyInput.isReleased(Key.NUM1)) {
             if (selected_block != -1) {
-                Msg msg = new ATTACK_MSG(1,selected_id,1);
+                Msg msg = new ATTACK_MSG(selected_team,selected_id,false);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.NUM2)) {
             if (selected_block != -1) {
-                Msg msg = new ATTACK_MSG(1,selected_id,2);
+                Msg msg = new ATTACK_MSG(selected_team,selected_id,true);
                 netClient.send(msg);
             }
         }
@@ -190,7 +190,15 @@ public class PlayView extends View {
         blocks[dst].getChildren().remove(0);
         blocks[dst].getChildren().add(s);
         blocks[src].getChildren().add(t);
+    }
 
+    public void set_blood(int team, int id, double blood) {
+        if (team == 1) {
+            bloods_T1[id-1].setProgress(blood);
+        }
+        else {
+            bloods_T2[id-1].setProgress(blood);
+        }
     }
 
     public void solve_clicked(int k) {

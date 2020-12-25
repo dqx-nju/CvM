@@ -1,5 +1,7 @@
 package org.cvm.net;
 
+import javafx.application.Platform;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -7,30 +9,34 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.cvm.Framework.*;
 
 public class ATTACK_MSG implements Msg {
     private int MSGType = Msg.ATTACK_MSG;
     private int team;
     private int id;
-    private int attack;//技能 12
+    private boolean is_skill;//技能 12
 
     public ATTACK_MSG(){
         this.team = -1;
         this.id = -1;
-        this.attack = -1;
+        this.is_skill = false;
     }
-    public ATTACK_MSG(int team, int id, int attack){
+    public ATTACK_MSG(int team, int id, boolean is_skill){
         this.team = team;
         this.id = id;
-        this.attack = attack;
+        this.is_skill = is_skill;
     }
 
     public int getTeam() {
         return team;
     }
 
-    public int getAttack() {
-        return attack;
+    public boolean getIs_skill() {
+        return is_skill;
     }
 
     public int getId() {
@@ -45,7 +51,7 @@ public class ATTACK_MSG implements Msg {
             dos.writeInt(MSGType);
             dos.writeInt(team);
             dos.writeInt(id);
-            dos.writeInt(attack);
+            dos.writeBoolean(is_skill);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -63,10 +69,40 @@ public class ATTACK_MSG implements Msg {
         try{
             int team = dis.readInt();
             int id = dis.readInt();
-            int attack = dis.readInt();
+            boolean is_skill = dis.readBoolean();
             this.team = team;
             this.id = id;
-            this.attack = attack;
+            this.is_skill = is_skill;
+            int op_team = (team == 1 ? 2 : 1);
+            calabashbrotherTeam.TeamNewTurn();
+            monsterTeam.TeamNewTurn();
+            List<List<Integer>> result = (team == 1 ? calabashbrotherTeam.Doattack(id,is_skill) : monsterTeam.Doattack(id,is_skill));
+            if (result.get(0).get(0) == -1) {
+                System.out.println("行动力/技能点不够");
+            }
+            else {
+                for (int i = 1; i < result.size(); i ++) {
+                    List<Integer> result_in = result.get(i);
+                    if (result_in.get(0) == 1) {
+                        int attack_id = result_in.get(1);
+                        int damage = result_in.get(2);
+                        int current_blood = result_in.get(3);
+                        int max_blood = result_in.get(4);
+                        double blood = (double)current_blood / (double)max_blood;
+                        System.out.println("attack_id: " + attack_id);
+                        System.out.println("damage: " + damage);
+                        System.out.println("current_blood: " + current_blood);
+                        System.out.println("max_blood: " + max_blood);
+                        System.out.println("blood: " + blood);
+                        Platform.runLater(() -> {
+                            playView.set_blood(op_team, attack_id, blood);
+                        });
+                    }
+                    else {
+                        System.out.println("Buff todo");
+                    }
+                }
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

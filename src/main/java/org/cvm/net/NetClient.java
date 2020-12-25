@@ -118,13 +118,10 @@ public class NetClient {
                     MOVE_MSG msg1 = new MOVE_MSG();
                     msg1.parse(dis);
                     break;
-//                case Msg.ATTACK_MSG:
-//                    ATTACK_MSG msg2 = new ATTACK_MSG();
-//                    msg2.parse(dis);
-//                    System.out.print("team: " + msg2.getTeam());
-//                    System.out.print(" id: " + msg2.getId());
-//                    System.out.println(" dir: " + msg2.getAttack());
-//                    break;
+                case Msg.ATTACK_MSG:
+                    ATTACK_MSG msg2 = new ATTACK_MSG();
+                    msg2.parse(dis);
+                    break;
 //                case Msg.DEAD_MSG:
 //                    DEAD_MSG msg3 = new DEAD_MSG();
 //                    msg3.parse(dis);
