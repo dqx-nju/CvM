@@ -98,11 +98,11 @@ public class ATTACK_MSG implements Msg {
 
             if (team == 1) {
                 INFORM_MSG inform_msg = new INFORM_MSG(team, calabashbrotherTeam.getTeamActionnumber(), calabashbrotherTeam.getTeamSkillNumber());
-                serverView.send(inform_msg, team);
+                serverView.send(inform_msg);
             }
             else {
                 INFORM_MSG inform_msg = new INFORM_MSG(team, monsterTeam.getTeamActionnumber(), monsterTeam.getTeamSkillNumber());
-                serverView.send(inform_msg, team);
+                serverView.send(inform_msg);
             }
 
             if (calabashbrotherTeam.isGameOver()) {

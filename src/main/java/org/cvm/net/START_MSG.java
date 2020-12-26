@@ -11,21 +11,28 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
+import static org.cvm.Framework.playFile;
 import static org.cvm.Framework.playView;
 
 public class START_MSG implements Msg {
     private int MSGType = Msg.START_MSG;
     private int team;
+    private boolean ifFinish;
 
     public START_MSG(){
         this.team = -1;
     }
-    public START_MSG(int team){
+    public START_MSG(int team, boolean ifFinish){
         this.team = team;
+        this.ifFinish = ifFinish;
     }
 
     public int getTeam() {
         return team;
+    }
+
+    public boolean isIfFinish() {
+        return ifFinish;
     }
 
     @Override
@@ -35,6 +42,7 @@ public class START_MSG implements Msg {
         try {
             dos.writeInt(MSGType);
             dos.writeInt(team);
+            dos.writeBoolean(ifFinish);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -51,10 +59,18 @@ public class START_MSG implements Msg {
     public void parse(DataInputStream dis) {
         try{
             int team = dis.readInt();
+            boolean ifFinish = dis.readBoolean();
             this.team = team;
-            Platform.runLater(() -> {
-                playView.start_turn(team);
-            });
+            this.ifFinish = ifFinish;
+            if (ifFinish) {
+                playFile.addStatement("FINISH " + team);
+            }
+            else {
+                playFile.addStatement("START " + team);
+                Platform.runLater(() -> {
+                    playView.start_turn(team);
+                });
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

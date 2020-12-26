@@ -1,6 +1,5 @@
 package org.cvm.view;
 
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -16,18 +15,16 @@ import org.cvm.net.ATTACK_MSG;
 import org.cvm.net.FINISH_MSG;
 import org.cvm.net.MOVE_MSG;
 import org.cvm.net.Msg;
+import org.cvm.world.Team.CalabashbrotherTeam;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
 
 import static org.cvm.Framework.*;
 
 public class PlayView extends View {
+
+    VBox playInfo = new VBox();
+    ScrollPane scrollPane;
 
     Alert gameOverAlert;
 
@@ -39,10 +36,9 @@ public class PlayView extends View {
     int teamActionnumber;
     Text action_text = new Text();
     Text skill_text = new Text();
+    Text your_team = new Text();
 
     VBox sidebar_info;
-
-    private File file;
     VBox vbox;
     VBox[] blocks;
     ProgressBar[] bloods_T1;
@@ -56,42 +52,68 @@ public class PlayView extends View {
 
     public PlayView() {
         super();
-        file = null;
     }
 
     public void set_inform(int team, int action, int skill) {
-        teamActionnumber = action;
-        teamSkillNumber = skill;
-        action_text.setText(String.valueOf(teamActionnumber));
-        skill_text.setText(String.valueOf(teamSkillNumber));
+        if (team == selected_team) {
+            teamActionnumber = action;
+            teamSkillNumber = skill;
+            action_text.setText(String.valueOf(teamActionnumber));
+            skill_text.setText(String.valueOf(teamSkillNumber));
+        }
     }
 
     public void game_over(int team, boolean youwin){
         if (youwin) {
+            playFile.addStatement("END " + team);
+            playFile.save_file("win.log");
             gameOverAlert.setContentText("恭喜你获胜！");
-            gameOverAlert.show();
         }
         else {
+            int op_team = (team == 1 ? 2 : 1);
+            playFile.addStatement("END " + op_team);
+            playFile.save_file("lose.log");
             gameOverAlert.setContentText("很遗憾你输了。");
-            gameOverAlert.show();
+        }
+        gameOverAlert.show();
+    }
+
+    public void set_team(int team) {
+        if (team == 1) {
+            your_team.setText("你的阵营：葫芦");
+            selected_team = 1;
+        }
+        else {
+            your_team.setText("你的阵营：妖怪");
+            selected_team = 2;
         }
     }
 
     public void start_turn(int team) {
-        selected_team = team;
-        selected_block = -1;
-        selected_id = -1;
-        myturn = true;
-        turn_vbox.getChildren().remove(0);
-        turn_vbox.getChildren().add(turn1_img);
+        if (team == 1) {
+            add_playinfo("新的回合开始：葫芦队");
+        }
+        else {
+            add_playinfo("新的回合开始：妖怪队");
+        }
+        if (team == selected_team) {
+            selected_block = -1;
+            selected_id = -1;
+            myturn = true;
+            turn_vbox.getChildren().remove(0);
+            turn_vbox.getChildren().add(turn1_img);
+        }
     }
 
     public void finish_turn(int team) {
-        myturn = false;
-        Msg msg = new FINISH_MSG(selected_team);
-        netClient.send(msg);
-        turn_vbox.getChildren().remove(0);
-        turn_vbox.getChildren().add(turn2_img);
+        add_playinfo("本回合结束");
+        if (team == selected_team) {
+            myturn = false;
+            Msg msg = new FINISH_MSG(selected_team);
+            netClient.send(msg);
+            turn_vbox.getChildren().remove(0);
+            turn_vbox.getChildren().add(turn2_img);
+        }
     }
 
     public void setPos(int team, int id, int src, int dst) {
@@ -103,6 +125,15 @@ public class PlayView extends View {
             assert(pos_T2[id-1] == src);
             pos_T2[id-1] = dst;
         }
+        swap_block(src,dst);
+    }
+
+    public void add_playinfo(String s) {
+        Text text = new Text(s);
+        text.setFont(Font.font(10));
+        text.setWrappingWidth(200);
+        playInfo.getChildren().add(text);
+        scrollPane.setVvalue(1);
     }
 
     public void delete_creature(int team, int id) {
@@ -111,7 +142,7 @@ public class PlayView extends View {
         img_figure.setFitWidth(70);
         img_figure.setFitHeight(86);
         vbox_figure.getChildren().add(img_figure);
-        int x = 0;
+        int x;
         if (team == 1) {
             x = pos_T1[id-1];
             pos_T1[id-1] = -1;
@@ -133,12 +164,10 @@ public class PlayView extends View {
         gameOverAlert.setTitle("游戏结束");
         gameOverAlert.setHeaderText(null);
         gameOverAlert.setContentText("Something");
-        gameOverAlert.setOnCloseRequest(e -> {
-            app.exit();
-        });
+        gameOverAlert.setOnCloseRequest(e -> app.exit());
 
-        teamSkillNumber = calabashbrotherTeam.getMaxTeamSkillNumber();
-        teamActionnumber = calabashbrotherTeam.getMaxTeamAcitonNumber();
+        teamSkillNumber = CalabashbrotherTeam.getMaxTeamSkillNumber();
+        teamActionnumber = CalabashbrotherTeam.getMaxTeamAcitonNumber();
 
         pos_T1 = calabashbrotherTeam.getallpostion();
         pos_T2 = monsterTeam.getallpostion();
@@ -205,9 +234,7 @@ public class PlayView extends View {
 
         for(int i = 0; i < 45; i++) {
             int finalI = i;
-            blocks[i].addEventHandler(MouseEvent.MOUSE_CLICKED,(e) -> {
-                solve_clicked(finalI);
-            });
+            blocks[i].addEventHandler(MouseEvent.MOUSE_CLICKED,(e) -> solve_clicked(finalI));
         }
 
         Text action = new Text("行动力: ");
@@ -218,16 +245,28 @@ public class PlayView extends View {
         skill.setFont(Font.font(30));
         action_text.setFont(Font.font(30));
         skill_text.setFont(Font.font(30));
+        your_team.setFont(Font.font(30));
+        your_team.setText("");
         HBox action_hbox = new HBox(action,action_text);
         HBox skill_hbox = new HBox(skill,skill_text);
-        VBox action_skill_vbox = new VBox(action_hbox,skill_hbox);
+        VBox action_skill_vbox = new VBox(your_team,action_hbox,skill_hbox);
 
         sidebar_info = new VBox();
         for (int i = 0; i < 6; i++) {
             sidebar_info.getChildren().add(new Text(""));
         }
 
+        scrollPane = new ScrollPane(playInfo);
+        scrollPane.setPrefHeight(220);
+        scrollPane.setPrefWidth(200);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+
         AnchorPane anchorPane = new AnchorPane();
+
+        anchorPane.getChildren().add(scrollPane);
+        AnchorPane.setBottomAnchor(scrollPane,20.0);
+        AnchorPane.setLeftAnchor(scrollPane,20.0);
+
         anchorPane.getChildren().add(sidebar_info);
         AnchorPane.setTopAnchor(sidebar_info,200.0);
         AnchorPane.setLeftAnchor(sidebar_info,20.0);
@@ -247,58 +286,43 @@ public class PlayView extends View {
         getChildren().add(anchorPane);
     }
 
-
-    @Override
-    public void onEnter() {
-        if(app.getFile() != null) {
-            file = app.getFile();
-            System.out.println(file);
-            playBack();
-            file = null;
-            app.setFile(null);
-        }
-        else {
-            System.out.println("No file");
-        }
-    }
-
     @Override
     public void onUpdate(double time) {
         if (keyInput.isReleased(Key.SPACE)) {
             finish_turn(selected_team);
         }
         if (keyInput.isReleased(Key.A)) {
-            if (selected_block != -1 && myturn == true) {
+            if (selected_block != -1 && myturn) {
                 Msg msg = new MOVE_MSG(selected_team,selected_id,3);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.D)) {
-            if (selected_block != -1 && myturn == true) {
+            if (selected_block != -1 && myturn) {
                 Msg msg = new MOVE_MSG(selected_team,selected_id,4);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.W)) {
-            if (selected_block != -1 && myturn == true) {
+            if (selected_block != -1 && myturn) {
                 Msg msg = new MOVE_MSG(selected_team,selected_id,1);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.S)) {
-            if (selected_block != -1 && myturn == true) {
+            if (selected_block != -1 && myturn) {
                 Msg msg = new MOVE_MSG(selected_team,selected_id,2);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.NUM1)) {
-            if (selected_block != -1 && myturn == true) {
+            if (selected_block != -1 && myturn) {
                 Msg msg = new ATTACK_MSG(selected_team,selected_id,false);
                 netClient.send(msg);
             }
         }
         if (keyInput.isReleased(Key.NUM2)) {
-            if (selected_block != -1 && myturn == true) {
+            if (selected_block != -1 && myturn) {
                 Msg msg = new ATTACK_MSG(selected_team,selected_id,true);
                 netClient.send(msg);
             }
@@ -345,8 +369,8 @@ public class PlayView extends View {
         if (team == 1) {
             sidebar_info.getChildren().remove(0,6);
             List<String> list = calabashbrotherTeam.getinformation(id);
-            for (int i = 0; i < list.size(); i++) {
-                Text text = new Text(list.get(i));
+            for (String s : list) {
+                Text text = new Text(s);
                 text.setWrappingWidth(200);
                 sidebar_info.getChildren().add(text);
             }
@@ -354,8 +378,8 @@ public class PlayView extends View {
         else {
             sidebar_info.getChildren().remove(0,6);
             List<String> list = monsterTeam.getinformation(id);
-            for (int i = 0; i < list.size(); i++) {
-                Text text = new Text(list.get(i));
+            for (String s : list) {
+                Text text = new Text(s);
                 text.setWrappingWidth(200);
                 sidebar_info.getChildren().add(text);
             }
@@ -363,9 +387,9 @@ public class PlayView extends View {
     }
 
     public void solve_clicked(int k) {
+        int x = getNo(1, k);
+        int y = getNo(2, k);
         if (selected_team == 1) {
-            int x = getNo(1, k);
-            int y = getNo(2,k);
             if (x != -1) {
                 selected_id = x;
                 selected_block = k;
@@ -378,8 +402,6 @@ public class PlayView extends View {
             }
         }
         else {
-            int x = getNo(1, k);
-            int y = getNo(2,k);
             if (y != -1) {
                 selected_id = y;
                 selected_block = k;
@@ -391,40 +413,5 @@ public class PlayView extends View {
                 set_sidebar_info(1,x);
             }
         }
-    }
-
-    private void playBack() {
-        // do something
-        System.out.println("in playBack");
-        String content = readFileContent(file);
-        String[] s = content.split("\n");
-        for (String t : s)
-            System.out.println(t);
-    }
-
-    public static String readFileContent(File file) {
-        BufferedReader reader = null;
-        StringBuilder sbf = new StringBuilder();
-        try {
-            reader = new BufferedReader(new FileReader(file));
-            String tempStr;
-            while ((tempStr = reader.readLine()) != null) {
-                sbf.append(tempStr);
-                sbf.append('\n');
-            }
-            reader.close();
-            return sbf.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
-        }
-        return sbf.toString();
     }
 }

@@ -11,7 +11,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.WindowEvent;
 import org.cvm.Framework;
 import org.cvm.input.KeyInput;
+import org.cvm.net.FINISH_MSG;
 import org.cvm.net.NetClient;
+import org.cvm.output.PlayFile;
 import org.cvm.view.PlayView;
 import org.cvm.world.Team.CalabashbrotherTeam;
 import org.cvm.world.Team.MonsterTeam;
@@ -38,6 +40,8 @@ public class App {
 
     private File file;
 
+    private PlayFile playFile;
+
     private CalabashbrotherTeam calabashbrotherTeam;
     private MonsterTeam monsterTeam;
 
@@ -63,6 +67,8 @@ public class App {
         monsterTeam = new MonsterTeam();
         netClient = new NetClient();
 
+        playFile = new PlayFile();
+
         initFramework();
         initApp();
         initEngine();
@@ -77,6 +83,7 @@ public class App {
         Framework.calabashbrotherTeam = calabashbrotherTeam;
         Framework.monsterTeam = monsterTeam;
         Framework.netClient = netClient;
+        Framework.playFile = playFile;
     }
 
     private final void initApp() {

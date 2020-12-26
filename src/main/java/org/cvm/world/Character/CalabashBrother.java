@@ -17,7 +17,7 @@ public class CalabashBrother extends Creature{
         posy=-1;
         switch (number){
             case 1:{
-                skillname="一";//前方一格高伤攻击
+                skillname="大娃";//前方一格高伤攻击
                 skilldescription="前方一格高伤攻击";
                 field=new int[1][2];
                 field[0][0]=0;
@@ -28,7 +28,7 @@ public class CalabashBrother extends Creature{
                 break;
             }
             case 2:{
-                skillname="二";//进行正前方攻击并为我方单位提供加攻buff
+                skillname="二娃";//进行正前方攻击并为我方单位提供加攻buff
                 skilldescription="进行正前方攻击并为我方单位提供加攻buff";
                 field=new int[][]{{0,1}};
                 skillnumber=attack;
@@ -37,7 +37,7 @@ public class CalabashBrother extends Creature{
                 break;
             }
             case 3:{
-                skillname="三";//以单次攻击力的减少，换取一回合的护甲提升，提升倍率为0.3
+                skillname="三娃";//以单次攻击力的减少，换取一回合的护甲提升，提升倍率为0.3
                 skilldescription="以单次攻击力的减少，换取一回合的护甲提升，提升倍率为0.3";
                 field=new int[][]{{0,1}};
                 skillnumber=(int)(attack*0.7);
@@ -46,7 +46,7 @@ public class CalabashBrother extends Creature{
                 break;
             }
             case 4:{
-                skillname="四";//范围aoe伤害
+                skillname="四娃";//范围aoe伤害
                 skilldescription="范围aoe伤害";
                 field=new int[][]{{0,1},{0,2},{0,3},{1,2},{-1,2},{-1,3},{1,3}};
                 skillnumber=(int)(attack*1.4);
@@ -55,7 +55,7 @@ public class CalabashBrother extends Creature{
                 break;
             }
             case 5:{
-                skillname="五";//范围aoe伤害，并带有一回合小额减甲,减甲倍率为0.2
+                skillname="五娃";//范围aoe伤害，并带有一回合小额减甲,减甲倍率为0.2
                 skilldescription="范围aoe伤害，并带有一回合小额减甲,减甲倍率为0.2";
 
                 field=new int[][]{{-1,1},{1,1},{0,1},{-1,2},{0,2},{1,2}};
@@ -65,7 +65,7 @@ public class CalabashBrother extends Creature{
                 break;
             }
             case 6:{
-                skillname="六";//常规攻击，并小幅度提升我方护甲值，持续2回合
+                skillname="六娃";//常规攻击，并小幅度提升我方护甲值，持续2回合
                 skilldescription="常规攻击，并小幅度提升我方护甲值，持续2回合";
                 field=new int[][]{{0,1}};
                 skillnumber=attack;
@@ -74,7 +74,7 @@ public class CalabashBrother extends Creature{
                 break;
             }
             case 7:{
-                skillname="七";//对正前方三格进行攻击，并在攻击之后对敌方随机两名角色进行一回合中幅度减甲,减甲倍率为0.5
+                skillname="七娃";//对正前方三格进行攻击，并在攻击之后对敌方随机两名角色进行一回合中幅度减甲,减甲倍率为0.5
                 skilldescription="对正前方三格进行攻击，并在攻击之后对敌方随机两名角色进行一回合中幅度减甲,减甲倍率为0.5";
                 field=new int[][]{{0,1},{0,2},{0,3}};
                 skillnumber=(int)(attack*0.8);

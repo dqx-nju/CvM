@@ -50,20 +50,15 @@ public class FINISH_MSG implements Msg {
         try{
             int team = dis.readInt();
             this.team = team;
-            if (team == 1) {
-                START_MSG start_msg = new START_MSG(2);
-                serverView.send(start_msg, 2);
-            }
-            else {
-                START_MSG start_msg = new START_MSG(1);
-                serverView.send(start_msg, 1);
-            }
+            int op_team = (team == 1 ? 2 : 1);
+            START_MSG start_msg1 = new START_MSG(team,true);
+            serverView.send(start_msg1);
+            START_MSG start_msg2 = new START_MSG(op_team,false);
+            serverView.send(start_msg2);
             monsterTeam.TeamNewTurn();
             calabashbrotherTeam.TeamNewTurn();
-            INFORM_MSG inform_msg_1 = new INFORM_MSG(team, calabashbrotherTeam.getTeamActionnumber(), calabashbrotherTeam.getTeamSkillNumber());
-            serverView.send(inform_msg_1, team);
-            INFORM_MSG inform_msg_2 = new INFORM_MSG(team, monsterTeam.getTeamActionnumber(), monsterTeam.getTeamSkillNumber());
-            serverView.send(inform_msg_2, team);
+            INFORM_MSG inform_msg = new INFORM_MSG(team, calabashbrotherTeam.getTeamActionnumber(), calabashbrotherTeam.getTeamSkillNumber());
+            serverView.send(inform_msg, team);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -114,6 +114,16 @@ public class CalabashbrotherTeam {
         }
     }
 
+    public String getSkillName(int No_x) {
+        for(int i=0;i<list.size();i++){
+            if(list.get(i).getNo_x()==No_x){
+                CalabashBrother c = list.get(i);
+                return c.getSkillname();
+            }
+        }
+        return "";
+    }
+
     public List<String> getinformation(int No_x){
         for(int i=0;i<list.size();i++){
             if(list.get(i).getNo_x()==No_x){

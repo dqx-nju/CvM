@@ -108,7 +108,7 @@ public class HomeView extends View {
             File file = fileChooser.showOpenDialog(app.getStage());
             if (file != null) {
                 app.setFile(file);
-                app.gotoView("Play");
+                app.gotoView("FilePlay");
             }
             else {
                 System.out.println("file = null");

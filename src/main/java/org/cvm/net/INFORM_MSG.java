@@ -11,6 +11,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
+import static org.cvm.Framework.playFile;
 import static org.cvm.Framework.playView;
 
 public class INFORM_MSG implements Msg {
@@ -72,8 +73,7 @@ public class INFORM_MSG implements Msg {
             this.team = team;
             this.action = action;
             this.skill = skill;
-            System.out.println("action: " + action);
-            System.out.println("skill " + skill);
+            playFile.addStatement("INFORM " + team + " " + action + " " + skill);
             Platform.setImplicitExit(false);
             Platform.runLater(() -> {
                 playView.set_inform(team, action, skill);

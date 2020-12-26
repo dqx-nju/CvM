@@ -84,10 +84,10 @@ public class S_MOVE_MSG implements Msg {
             this.last_pos = last_pos;
             this.current_pos = current_pos;
             System.out.println("Client request a swap");
+            playFile.addStatement("MOVE " + team + " " + id + " " + last_pos + " " + current_pos);
             Platform.setImplicitExit(false);
             Platform.runLater(() -> {
                 playView.setPos(team,id,last_pos,current_pos);
-                playView.swap_block(last_pos, current_pos);
             });
         } catch (IOException e) {
             e.printStackTrace();

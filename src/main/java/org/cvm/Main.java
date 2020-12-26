@@ -2,6 +2,7 @@ package org.cvm;
 
 import javafx.scene.image.Image;
 import org.cvm.app.Game;
+import org.cvm.view.FilePlayView;
 import org.cvm.view.HomeView;
 import org.cvm.view.PlayView;
 
@@ -23,6 +24,7 @@ public class Main extends Game {
         Framework.playView = playView;
         app.regView("Home", new HomeView());
         app.regView("Play", playView);
+        app.regView("FilePlay", new FilePlayView());
         app.gotoView("Home");
         // app.gotoView("Play"); // 测试
     }

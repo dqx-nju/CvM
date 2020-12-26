@@ -1,12 +1,15 @@
 package org.cvm.net;
 
 
+import javafx.application.Platform;
 import org.cvm.view.ServerView;
 
 import java.io.*;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.Socket;
+
+import static org.cvm.Framework.playView;
 
 
 public class NetClient {
@@ -39,10 +42,18 @@ public class NetClient {
             DataInputStream dis = new DataInputStream(s.getInputStream());
             int id = dis.readInt();
             this.serverUDPPort = dis.readInt();
-            if (id == 1) {
+            if (id == 0) {
+                Platform.setImplicitExit(false);
+                Platform.runLater(() -> {
+                    playView.set_team(1);
+                });
                 System.out.println("Huluwa! id = " + id);
             }
             else {
+                Platform.setImplicitExit(false);
+                Platform.runLater(() -> {
+                    playView.set_team(2);
+                });
                 System.out.println("Monster! id = " + id);
             }
             System.out.println("connect to server successfully...");

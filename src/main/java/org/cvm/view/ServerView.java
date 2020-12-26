@@ -66,8 +66,8 @@ public class ServerView extends View{
                 }
             }
         }
-        START_MSG start_msg = new START_MSG(1);
-        send(start_msg,1);
+        START_MSG start_msg = new START_MSG(1,false);
+        send(start_msg);
     }
 
     public void send(Msg msg){
