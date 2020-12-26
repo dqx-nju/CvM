@@ -64,6 +64,10 @@ public class START_MSG implements Msg {
             this.ifFinish = ifFinish;
             if (ifFinish) {
                 playFile.addStatement("FINISH " + team);
+                Platform.runLater(() -> {
+                    playView.start_turn(team);
+                    playView.add_playinfo("本回合结束");
+                });
             }
             else {
                 playFile.addStatement("START " + team);

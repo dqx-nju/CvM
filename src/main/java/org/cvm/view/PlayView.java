@@ -23,6 +23,8 @@ import static org.cvm.Framework.*;
 
 public class PlayView extends View {
 
+    Button finish_btn;
+
     VBox playInfo = new VBox();
     ScrollPane scrollPane;
 
@@ -97,16 +99,19 @@ public class PlayView extends View {
             add_playinfo("新的回合开始：妖怪队");
         }
         if (team == selected_team) {
+            finish_btn.setVisible(true);
             selected_block = -1;
             selected_id = -1;
             myturn = true;
             turn_vbox.getChildren().remove(0);
             turn_vbox.getChildren().add(turn1_img);
         }
+        else {
+            finish_btn.setVisible(false);
+        }
     }
 
     public void finish_turn(int team) {
-        add_playinfo("本回合结束");
         if (team == selected_team) {
             myturn = false;
             Msg msg = new FINISH_MSG(selected_team);
@@ -256,12 +261,23 @@ public class PlayView extends View {
             sidebar_info.getChildren().add(new Text(""));
         }
 
+        ImageView img_finish = new ImageView(new Image(getClass().getResourceAsStream("finish.png")));
+        finish_btn = new Button("",img_finish);
+        finish_btn.setOnAction((e) -> {
+            if(myturn)
+                finish_turn(selected_team);
+        });
+
         scrollPane = new ScrollPane(playInfo);
         scrollPane.setPrefHeight(220);
         scrollPane.setPrefWidth(200);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
         AnchorPane anchorPane = new AnchorPane();
+
+        anchorPane.getChildren().add(finish_btn);
+        AnchorPane.setTopAnchor(finish_btn,60.0);
+        AnchorPane.setRightAnchor(finish_btn,300.0);
 
         anchorPane.getChildren().add(scrollPane);
         AnchorPane.setBottomAnchor(scrollPane,20.0);
@@ -288,9 +304,6 @@ public class PlayView extends View {
 
     @Override
     public void onUpdate(double time) {
-        if (keyInput.isReleased(Key.SPACE)) {
-            finish_turn(selected_team);
-        }
         if (keyInput.isReleased(Key.A)) {
             if (selected_block != -1 && myturn) {
                 Msg msg = new MOVE_MSG(selected_team,selected_id,3);
