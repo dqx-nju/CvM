@@ -58,7 +58,7 @@ public class BLOOD_MSG implements Msg {
 
     @Override
     public void send(DatagramSocket ds, String IP, int UDP_Port) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(30);//指定大小, 免得字节数组扩容占用时间
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(30);
         DataOutputStream dos = new DataOutputStream(baos);
         try {
             dos.writeInt(MSGType);

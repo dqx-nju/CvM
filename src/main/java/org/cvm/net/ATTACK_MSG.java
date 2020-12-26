@@ -45,7 +45,7 @@ public class ATTACK_MSG implements Msg {
 
     @Override
     public void send(DatagramSocket ds, String IP, int UDP_Port) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(30);//指定大小, 免得字节数组扩容占用时间
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(30);
         DataOutputStream dos = new DataOutputStream(baos);
         try {
             dos.writeInt(MSGType);
@@ -79,19 +79,18 @@ public class ATTACK_MSG implements Msg {
                 System.out.println("行动力/技能点不够");
             }
             else {
-                for (int i = 1; i < result.size(); i ++) {
+                for (int i = 1; i < result.size(); i++) {
                     List<Integer> result_in = result.get(i);
                     if (result_in.get(0) == 1) {
                         int attack_id = result_in.get(1);
                         int damage = result_in.get(2);
                         int current_blood = result_in.get(3);
                         int max_blood = result_in.get(4);
-                        double blood = (double)current_blood / (double)max_blood;
-                        Msg msg = new BLOOD_MSG(op_team,attack_id,damage,current_blood,max_blood);
+                        double blood = (double) current_blood / (double) max_blood;
+                        Msg msg = new BLOOD_MSG(op_team, attack_id, damage, current_blood, max_blood);
                         serverView.send(msg);
                         System.out.println("Server sent a blood_msg");
-                    }
-                    else {
+                    } else {
                         System.out.println("Buff todo");
                     }
                 }
@@ -104,6 +103,19 @@ public class ATTACK_MSG implements Msg {
             else {
                 INFORM_MSG inform_msg = new INFORM_MSG(team, monsterTeam.getTeamActionnumber(), monsterTeam.getTeamSkillNumber());
                 serverView.send(inform_msg, team);
+            }
+
+            if (calabashbrotherTeam.isGameOver()) {
+                DEAD_MSG msg1 = new DEAD_MSG(1,false);
+                DEAD_MSG msg2 = new DEAD_MSG(2,true);
+                serverView.send(msg1,1);
+                serverView.send(msg2,2);
+            }
+            else if (monsterTeam.isGameOver()) {
+                DEAD_MSG msg1 = new DEAD_MSG(1,true);
+                DEAD_MSG msg2 = new DEAD_MSG(2,false);
+                serverView.send(msg1,1);
+                serverView.send(msg2,2);
             }
         } catch (IOException e) {
             e.printStackTrace();

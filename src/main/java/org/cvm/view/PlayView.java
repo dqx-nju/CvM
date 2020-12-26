@@ -1,8 +1,9 @@
 package org.cvm.view;
 
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.control.ProgressBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -20,11 +21,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 import static org.cvm.Framework.*;
 
 public class PlayView extends View {
+
+    Alert gameOverAlert;
 
     ImageView turn1_img = new ImageView(new Image(getClass().getResourceAsStream("turn1.png")));
     ImageView turn2_img = new ImageView(new Image(getClass().getResourceAsStream("turn2.png")));
@@ -34,6 +39,8 @@ public class PlayView extends View {
     int teamActionnumber;
     Text action_text = new Text();
     Text skill_text = new Text();
+
+    VBox sidebar_info;
 
     private File file;
     VBox vbox;
@@ -57,6 +64,17 @@ public class PlayView extends View {
         teamSkillNumber = skill;
         action_text.setText(String.valueOf(teamActionnumber));
         skill_text.setText(String.valueOf(teamSkillNumber));
+    }
+
+    public void game_over(int team, boolean youwin){
+        if (youwin) {
+            gameOverAlert.setContentText("恭喜你获胜！");
+            gameOverAlert.show();
+        }
+        else {
+            gameOverAlert.setContentText("很遗憾你输了。");
+            gameOverAlert.show();
+        }
     }
 
     public void start_turn(int team) {
@@ -110,6 +128,14 @@ public class PlayView extends View {
 
     @Override
     public void onLaunch() {
+
+        gameOverAlert = new Alert(Alert.AlertType.INFORMATION);
+        gameOverAlert.setTitle("游戏结束");
+        gameOverAlert.setHeaderText(null);
+        gameOverAlert.setContentText("Something");
+        gameOverAlert.setOnCloseRequest(e -> {
+            app.exit();
+        });
 
         teamSkillNumber = calabashbrotherTeam.getMaxTeamSkillNumber();
         teamActionnumber = calabashbrotherTeam.getMaxTeamAcitonNumber();
@@ -196,7 +222,16 @@ public class PlayView extends View {
         HBox skill_hbox = new HBox(skill,skill_text);
         VBox action_skill_vbox = new VBox(action_hbox,skill_hbox);
 
+        sidebar_info = new VBox();
+        for (int i = 0; i < 6; i++) {
+            sidebar_info.getChildren().add(new Text(""));
+        }
+
         AnchorPane anchorPane = new AnchorPane();
+        anchorPane.getChildren().add(sidebar_info);
+        AnchorPane.setTopAnchor(sidebar_info,200.0);
+        AnchorPane.setLeftAnchor(sidebar_info,20.0);
+
         anchorPane.getChildren().add(action_skill_vbox);
         AnchorPane.setRightAnchor(action_skill_vbox, 60.0);
         AnchorPane.setTopAnchor(action_skill_vbox, 60.0);
@@ -231,10 +266,6 @@ public class PlayView extends View {
     public void onUpdate(double time) {
         if (keyInput.isReleased(Key.SPACE)) {
             finish_turn(selected_team);
-        }
-        if (keyInput.isPressed(Key.ESCAPE)) {
-            System.out.println("Pressed ESC");
-            app.gotoView("Home");
         }
         if (keyInput.isReleased(Key.A)) {
             if (selected_block != -1 && myturn == true) {
@@ -310,23 +341,54 @@ public class PlayView extends View {
         return -1;
     }
 
-    public void solve_clicked(int k) {
-        if(myturn == true) {
-            if (selected_team == 1) {
-                int x = getNo(1, k);
-                if (x != -1) {
-                    selected_id = x;
-                    selected_block = k;
-                    System.out.println("You clicked b " + selected_id + " at " + k);
-                }
+    public void set_sidebar_info(int team, int id) {
+        if (team == 1) {
+            sidebar_info.getChildren().remove(0,6);
+            List<String> list = calabashbrotherTeam.getinformation(id);
+            for (int i = 0; i < list.size(); i++) {
+                Text text = new Text(list.get(i));
+                text.setWrappingWidth(200);
+                sidebar_info.getChildren().add(text);
             }
-            else {
-                int x = getNo(2, k);
-                if (x != -1) {
-                    selected_id = x;
-                    selected_block = k;
-                    System.out.println("You clicked b " + selected_id + " at " + k);
-                }
+        }
+        else {
+            sidebar_info.getChildren().remove(0,6);
+            List<String> list = monsterTeam.getinformation(id);
+            for (int i = 0; i < list.size(); i++) {
+                Text text = new Text(list.get(i));
+                text.setWrappingWidth(200);
+                sidebar_info.getChildren().add(text);
+            }
+        }
+    }
+
+    public void solve_clicked(int k) {
+        if (selected_team == 1) {
+            int x = getNo(1, k);
+            int y = getNo(2,k);
+            if (x != -1) {
+                selected_id = x;
+                selected_block = k;
+                set_sidebar_info(1,x);
+            }
+            else if (y != -1) {
+                selected_id = -1;
+                selected_block = -1;
+                set_sidebar_info(2,y);
+            }
+        }
+        else {
+            int x = getNo(1, k);
+            int y = getNo(2,k);
+            if (y != -1) {
+                selected_id = y;
+                selected_block = k;
+                set_sidebar_info(2,y);
+            }
+            else if (x != -1) {
+                selected_id = -1;
+                selected_block = -1;
+                set_sidebar_info(1,x);
             }
         }
     }

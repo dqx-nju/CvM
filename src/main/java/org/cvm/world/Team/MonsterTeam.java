@@ -45,6 +45,10 @@ public class MonsterTeam {
         teamSkillNumber=MaxTeamSkillNumber;
     }
 
+    public static boolean isGameOver() {
+        return (list.size() == 0) ? true : false;
+    }
+
     public static int getMaxTeamSkillNumber() {
         return MaxTeamSkillNumber;
     }
@@ -116,23 +120,12 @@ public class MonsterTeam {
             if(list.get(i).getNo_x()==No_x){
                 Monster c=list.get(i);
                 List<String> output=new ArrayList<String>();
-                output.add("HP/MAXHP: "+c.getHP()+" / "+c.getMAXHP());
-                output.add("criticalstrike: "+c.getCriticalStrike());
-                output.add("missrate: "+c.getMissrate());
-                output.add("attack: "+c.getAttack());
-                output.add("skillname: "+c.getSkillname());
-                output.add("skilldescription: "+ c.getSkilldescription());
-                output.add("skillnumber: "+c.getSkillnumber());
-                output.add("skillcost: " + c.getSkillcost());
-                output.add("attackbuffs:");
-                List<AttackBuff> att=c.getAttackBuffs();
-                for(int j=0;j<att.size();j++){
-                    output.add("buffnumber: "+att.get(i).getAttackChange()+" bufftime: "+att.get(i).getAttackbufftime());
-                }
-                output.add("armorbuffs:");
-                List<ArmorBuff> arm=c.getArmorBuffs();
-                for(int j=0;j<arm.size();j++)
-                    output.add("buffnumber: "+arm.get(i).getArmorChange()+" bufftime: "+arm.get(i).getArmorbufftime());
+                output.add("角色名称：" + c.getSkillname());
+                output.add("总血量：" + c.getMAXHP());
+                output.add("普攻伤害："+c.getAttack());
+                output.add("技能伤害："+c.getSkillnumber());
+                output.add("技能描述："+ c.getSkilldescription());
+                output.add("技能消耗：" + c.getSkillcost());
                 return output;
             }
         }

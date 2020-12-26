@@ -15,14 +15,10 @@ import java.util.List;
 
 public class ServerView extends View{
 
-    public static int ID = 0;//id号的初始序列
-    public static final int TCP_PORT = 5555;//TCP端口号
-    public static final int UDP_PORT = 5556;//转发客户端数据的UDP端口号
-    public static final int TANK_DEAD_UDP_PORT = 5557;//接收客户端坦克死亡的端口号
-    private List<Client> clients = new ArrayList<>();//客户端集合
-    private Image offScreenImage = null;//服务器画布
-    private static final int SERVER_HEIGHT = 500;
-    private static final int SERVER_WIDTH = 300;
+    public static int ID = 0;
+    public static final int TCP_PORT = 5555;
+    public static final int UDP_PORT = 5556;
+    private List<Client> clients = new ArrayList<>();
     private DatagramSocket ds = null;
 
     @Override
@@ -36,7 +32,7 @@ public class ServerView extends View{
         new Thread(new UDPThread()).start();
         ServerSocket ss = null;
         try {
-            ss = new ServerSocket(TCP_PORT);//在TCP欢迎套接字上监听客户端连接
+            ss = new ServerSocket(TCP_PORT);
             System.out.println("Server has started...");
         } catch (IOException e) {
             e.printStackTrace();
@@ -45,7 +41,7 @@ public class ServerView extends View{
         while(ID<=1){
             Socket s = null;
             try {
-                s = ss.accept();//给客户但分配专属TCP套接字
+                s = ss.accept();
                 if (ID == 0) {
                     System.out.println("One client has connected...");
                 }
@@ -53,14 +49,13 @@ public class ServerView extends View{
                     System.out.println("Another client has connected...");
                 }
                 DataInputStream dis = new DataInputStream(s.getInputStream());
-                int UDP_PORT = dis.readInt();//记录客户端UDP端口
-                Client client = new Client(s.getInetAddress().getHostAddress(), UDP_PORT, ID);//创建Client对象
-                clients.add(client);//添加进客户端容器
+                int UDP_PORT = dis.readInt();
+                Client client = new Client(s.getInetAddress().getHostAddress(), UDP_PORT, ID);
+                clients.add(client);
 
                 DataOutputStream dos = new DataOutputStream(s.getOutputStream());
-                dos.writeInt(ID++);//向客户端分配id号
-                dos.writeInt(ServerView.UDP_PORT);//告诉客户端自己的UDP端口号
-                dos.writeInt(ServerView.TANK_DEAD_UDP_PORT);
+                dos.writeInt(ID++);
+                dos.writeInt(ServerView.UDP_PORT);
             }catch (IOException e) {
                 e.printStackTrace();
             }finally {
@@ -112,11 +107,11 @@ public class ServerView extends View{
             DataInputStream dis = new DataInputStream(bais);
             int msgType = 0;
             try {
-                msgType = dis.readInt();//获得消息类型
+                msgType = dis.readInt();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            switch (msgType){//根据消息的类型调用对应消息的解析方法
+            switch (msgType){
                 case Msg.MOVE_MSG :
                     MOVE_MSG msg1 = new MOVE_MSG();
                     msg1.parse(dis);
