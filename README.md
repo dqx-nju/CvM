@@ -162,8 +162,7 @@
 
 该接口提供具体的计算方式，同时对于是否暴击和是否闪避将由内置的另外两个函数计算完成：
 
--<T extends Creature> boolean ifcritical(T attacker)
--<T extends Creature> boolean ifmiss(T defenser)
+<T extends Creature> boolean ifcritical(T attacker)和<T extends Creature> boolean ifmiss(T defenser)
 
 具体的计算过程如下：
 
