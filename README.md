@@ -89,6 +89,121 @@
 
 ### 3、世界模块 world
 
+#### Character包(角色设计)
+
+##### Creature 类
+
+实现了对于葫芦娃和妖精共有的特征。
+
+具体包含的内容如下：
+
+- 特征信息：
+  - Attack ：攻击力(普通攻击，固定值)
+  - Armor ： 护甲值(固定值)
+  - CriticalStrike ： 暴击率(以1～100内的整数记录)
+  - Missrate ： 闪避率(以1～100内的整数记录)
+  - HP ： 当前血量
+  - MAXHP ： 血量上限(固定值)
+  - attackBuffs ： 当前实体所拥有的攻击力buff/debuff列表
+  - armorBuffs ： 当前实体所拥有的护甲值buff/debuff列表
+
+- 对外函数接口：
+  - Creature(int Attack,int Armor,int CriticalStrike,int Missrate,int HP)：初始化时必须指定creature的各项数值并初始化列表，此时this.HP=this.MAXHP=HP
+  - getxxx()：不同的get函数用于获取creature的不同信息
+  - newAttackBuff(int Attackchange, int Attackbufftime)：向攻击buff列表中新添buff项
+  - newArmorBuff(int Armorchange,int Armorbufftime)：向护甲buff列表中新添buff项
+  - setHP(int HP)：HP变更，若参数HP<0，设置this.HP=0
+  - newturn()：每一次到达新的回合，调用非public函数Countdown()将两个buff列表中的各项buff的bufftime减一，然后从中删除已经失效的buff/debuff
+  - setAttack(int Attack)：设置攻击力，用于在使用技能时，生成原对象的临时副本，改变attack为技能的攻击力用于计算damage
+
+##### Calabashbrother 类 & Monster 类
+
+虽然葫芦娃类和妖精类具有相似的结构且均为Creature类的子类，出于区分度以及技能的配置需求实现成两个类
+
+具体组成如下：
+
+- 共有的特征信息：
+  - posx和posy：存储在5x9(5行9列)的场景内，葫芦娃/怪物的行号(posx:0~4)和列号(posy:0~8)
+  - No_x：葫芦娃/怪物在队内的编号
+  - skillname：技能名称，暂定为各个人物的名字
+  - skilldescription：技能描述
+  - field：二维数组，用于存储技能的攻击范围，均是相对于自身位置(x,y)的常数对
+  - skillnumber：技能攻击力
+  - skillbufftime：技能可能附带buff，存储buff的持续回合数
+  - skillcost：技能需要花费一定的团队技能值
+  
+- 新增对外函数接口:
+  - CalabashBrother/Monster (int attack,int armor,int criticalstrike,int missrate,int HP,int number)：葫芦娃/怪物的构造函数，number用于决定其在队伍里的编号，以此决定相应的技能配置
+  - getxxx()：获取新增的各项葫芦娃/怪物的数值和技能描述性信息
+
+#### Buff包(规范的buff项)
+
+##### ArmorBuff 类 & AttackBuff 类
+
+包含一个buff/debuff的组成信息
+
+- 特征信息：
+  - ArmorChange 和 AttackChange ：buff的具体数值，这个数值小于0即相当于debuff
+  - Armorbufftime 和 Attackbufftime ：buff持续的回合数
+  
+- 函数接口：
+  - xxxBuff()/xxxBuff(int xxxChange,int xxxbufftime)：构造函数
+  - getxxx()：获取数值
+  - xxxbuffoverdue()：判断当前buff是否失效，失效则返回true
+  - countdown()：新的回合，bufftime减1
+  
+#### Algorithm包(具体的攻击算法)
+
+##### Assault 类
+
+该类只是单纯的函数类，提供具体的一次攻击的计算流程，只有唯一的对外接口：
+
+- public <T extends Creature> int DamageCaculate(T attacker,T defenser)
+
+该接口提供具体的计算方式，同时对于是否暴击和是否闪避将由内置的另外两个函数计算完成：
+
+-<T extends Creature> boolean ifcritical(T attacker)
+-<T extends Creature> boolean ifmiss(T defenser)
+
+具体的计算过程如下：
+
+Attack=attacker.getAttack()+Attackbuffnumber
+Armor=defenser.getArmor()+Armorbuffnumber
+
+其中buffnumber将由存放的buff列表做加法计算得到。
+
+实际伤害finaldamage=(int)(Attack/(1+(Armor/100)))；
+
+若暴击，finaldamage将乘以1.5并取整，若miss，函数将返回-1表示miss，以和finaldamage=0区别
+
+没有miss则正常返回finaldamage。
+
+#### Team包(双方队伍的实现)
+
+实现葫芦娃队伍和怪物队伍的相关信息和对战用接口，由于队伍具备对称性，仅以葫芦娃队伍为例。
+
+- 特征信息：
+  - MaxTeamSkillNumber=10：静态常量，每回合团队技能值初始化上限，允许使用技能使技能值溢出，但每一回合开始前将恢复
+  - teamSkillNumber：实际团队技能值
+  - MaxTeamAcitonNumber=15：静态常量，每回合团队行动力初始化上限，允许使用技能使行动力溢出，但每一回合开始前将恢复
+  - teamActionnumber：实际团队行动力，移动一格以及发动攻击都需要1点行动力
+  - ifaction：判断小队成员是否在本回合发动过攻击，1表示未攻击，0表示已攻击，-1及其他可能的异常值表示角色死亡。
+  - list：存储小队成员1～7对象的列表，为静态列表
+  - a：assault算法模块
+  
+- 对外接口：
+  - CalabashbrotherTeam()：初始化各项数值及7名小队成员对象，为各个人物分配初始的posx和posy
+  - isGameOver()：静态函数，用于判断是否队伍成员已经全部死亡，游戏结束
+  - getxxx()：获取团队相关信息，对于获取某个特定成员的实例或者位置信息将会需要一些参数
+  - TeamNewTurn()：新的回合，重置技能值和行动力，更新各个成员的buff状态和ifaction表单
+  - calabashbrotherDead(int No_x)：团队成员No_x死亡，从列表中删除，ifaction中对应位置-1
+  - getattack(int No_x,int damage,CalabashBrother c)：静态函数，葫芦娃No_x受到damage，并同步更新c
+  - moveup/down/left/right(int No_x)：移动，需要消耗1点行动力以及前往的格子内不存在葫芦娃或者怪物对象
+  - haveCreature(int x,int y)：静态函数，判断格子(x,y)内是否有葫芦娃
+  - getAttackBuff(int No_x,int attackchange,int attackbufftime)和getArmorBuff(int No_x,int armorchange,int armorbufftime)：静态函数，小队成员No_x获得了某项buff，新增到其buff列表
+  - DoAttack(int No_x,boolean is_skill)：小队成员发动攻击，is_skill为true表示为技能攻击，主要在使用assault内部函数时和creature的setattack关联使用，以二维数字表的形式返回攻击前后的变化
+  
+对应的MonsterTeam也有类似的函数和成员变量，在此不多做赘述。
 
 
 ### 4、网络模块 net

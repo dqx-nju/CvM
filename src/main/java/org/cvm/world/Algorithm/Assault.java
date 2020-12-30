@@ -20,7 +20,7 @@ public class Assault {
         for(ArmorBuff arm:armorBuffs){
             Armorbuffnumber=Armorbuffnumber+arm.getArmorChange();
         }
-        Attack=Attack+Armorbuffnumber;
+        Attack=Attack+Attackbuffnumber;
         Armor=Armor+Armorbuffnumber;
         if(Armor<=0) finaldamage=Attack;
         else finaldamage=(int)(Attack/(1+(Armor/100)));
