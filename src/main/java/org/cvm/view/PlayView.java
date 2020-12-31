@@ -206,7 +206,7 @@ public class PlayView extends View {
         for (int i = 0; i < 7; i++) {
             int x = pos_T1[i];
             VBox vbox_figure = new VBox();
-            ImageView img_figure = new ImageView(new Image(getClass().getResourceAsStream("../world/b" + (i + 1) + "_right.png")));
+            ImageView img_figure = new ImageView(new Image(getClass().getResourceAsStream("b" + (i + 1) + "_right.png")));
             ProgressBar blood = new ProgressBar();
             blood.setPrefWidth(70);
             blood.setStyle("-fx-accent: red;");
@@ -223,7 +223,7 @@ public class PlayView extends View {
         for (int i = 0; i < 7; i++) {
             int x = pos_T2[i];
             VBox vbox_figure = new VBox();
-            ImageView img_figure = new ImageView(new Image(getClass().getResourceAsStream("../world/m" + (i + 1) + "_left.png")));
+            ImageView img_figure = new ImageView(new Image(getClass().getResourceAsStream("m" + (i + 1) + "_left.png")));
             ProgressBar blood = new ProgressBar();
             blood.setPrefWidth(70);
             blood.setStyle("-fx-accent: red;");

@@ -1,18 +1,44 @@
 # CvM 葫芦娃大战妖精
 
-## 游戏介绍
-
-
-
 ## 使用说明
 
 ### 1、联机对战
 
+- 首先其中一方要先启动服务器，`src/main/java/ServerMain.java`，对应已打包的 `homework/ServerMain.jar` 文件。
+- 然后双方分别启动客户端，`src/main/java/Main.java`，对应已打包的 `homework/Main.jar` 文件。
+
+![image-20201231174710123](/Users/pxy/Desktop/Projects/CvM/homework/img1.png)
+
+- 点击开始游戏，输入服务器 IP 地址进行连接。
+
+![image-20201231174806874](/Users/pxy/Desktop/Projects/CvM/homework/img2.png)
+
+- 双方都连接成功后，游戏开始。
+
+![image-20201231174949924](/Users/pxy/Desktop/Projects/CvM/homework/img3.png)
 
 
-### 2、回放 log
 
+游戏说明：
 
+- 游戏为回合制，在某一方的回合内，可以移动任意角色，并发动攻击或技能，直到行动力与技能值不足以继续游戏时，点击按钮结束回合。
+- 鼠标点击我方角色，则视为选中。
+- WSAD 分别为上下左右移动。
+- 按键1代表普通攻击，按键2代表技能，每回合每个角色仅能发动一次攻击或技能。
+
+- 鼠标点击双方阵营任意角色，左侧会显示该角色相关信息。
+- 左下方会实时显示双方对战的细节
+- 结束游戏时保存对战log到本地
+
+### 2、回放游戏
+
+- 在主页面上按下 L 键
+- 在文件选择器中选取本地某一log文件，提供的样例文件为 `homework/sample.log`
+- 之后会自动播放
+
+![image-20201231175600964](/Users/pxy/Desktop/Projects/CvM/homework/img4.png)
+
+![image-20201231175657090](/Users/pxy/Desktop/Projects/CvM/homework/img5.png)
 
 ##模块介绍
 
@@ -202,6 +228,7 @@ Armor=defenser.getArmor()+Armorbuffnumber
   - getAttackBuff(int No_x,int attackchange,int attackbufftime)和getArmorBuff(int No_x,int armorchange,int armorbufftime)：静态函数，小队成员No_x获得了某项buff，新增到其buff列表
   - DoAttack(int No_x,boolean is_skill)：小队成员发动攻击，is_skill为true表示为技能攻击，主要在使用assault内部函数时和creature的setattack关联使用，以二维数字表的形式返回攻击前后的变化
   
+
 对应的MonsterTeam也有类似的函数和成员变量，在此不多做赘述。
 
 
