@@ -1,5 +1,7 @@
 # CvM 葫芦娃大战妖精
 
+![sample](/Users/pxy/Desktop/Projects/CvM/homework/sample.gif)
+
 ## 使用说明
 
 ### 1、联机对战
