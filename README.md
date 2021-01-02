@@ -1,23 +1,25 @@
 # CvM 葫芦娃大战妖精
 
-![sample](/Users/pxy/Desktop/Projects/CvM/homework/sample.gif)
+![sample](https://raw.githubusercontent.com/dqx-nju/CvM/main/homework/sample.gif)
 
 ## 使用说明
 
+项目使用的是自带 javafx 的 javaSE 8。
+
 ### 1、联机对战
 
-- 首先其中一方要先启动服务器，`src/main/java/ServerMain.java`，对应已打包的 `homework/ServerMain.jar` 文件。
-- 然后双方分别启动客户端，`src/main/java/Main.java`，对应已打包的 `homework/Main.jar` 文件。
+- 首先启动服务器，启动命令：`java -jar homework/ServerMain.jar`
+- 然后启动客户端，启动命令：`java -jar homework/Main.jar`，需要启动两个，分别代表双方。
 
-![image-20201231174710123](/Users/pxy/Desktop/Projects/CvM/homework/img1.png)
+![image-20201231174710123](https://raw.githubusercontent.com/dqx-nju/CvM/main/homework/img1.png)
 
-- 点击开始游戏，输入服务器 IP 地址进行连接。
+- 点击开始游戏，输入服务器 IP 地址进行连接，默认 127.0.0.1 代表本地。
 
-![image-20201231174806874](/Users/pxy/Desktop/Projects/CvM/homework/img2.png)
+![image-20201231174806874](https://raw.githubusercontent.com/dqx-nju/CvM/main/homework/img2.png)
 
 - 双方都连接成功后，游戏开始。
 
-![image-20201231174949924](/Users/pxy/Desktop/Projects/CvM/homework/img3.png)
+![image-20201231174949924](https://raw.githubusercontent.com/dqx-nju/CvM/main/homework/img3.png)
 
 
 
@@ -34,15 +36,17 @@
 
 ### 2、回放游戏
 
+- 只需要启动一个客户端即可，`java -jar homework/Main.jar`
+
 - 在主页面上按下 L 键
-- 在文件选择器中选取本地某一log文件，提供的样例文件为 `homework/sample.log`
+- 在文件选择器中选取本地某一 log 文件，提供的样例文件为 `homework/sample.log`
 - 之后会自动播放
 
-![image-20201231175600964](/Users/pxy/Desktop/Projects/CvM/homework/img4.png)
+![image-20201231175600964](https://raw.githubusercontent.com/dqx-nju/CvM/main/homework/img4.png)
 
-![image-20201231175657090](/Users/pxy/Desktop/Projects/CvM/homework/img5.png)
+![image-20201231175657090](https://raw.githubusercontent.com/dqx-nju/CvM/main/homework/img5.png)
 
-##模块介绍
+## 模块介绍
 
 - app 应用模块：整个应用的控制
 - view 页面模块：游戏页面
@@ -291,3 +295,8 @@ Armor=defenser.getArmor()+Armorbuffnumber
 - List\<String\> list：存储对战信息，实时更新
 - addStatement(String)：添加信息到 list
 - save_file(String)：保存所有信息到本地文件
+
+## 分工
+
+- 董启轩：world 模块
+- 裴新宇：app/view/net/input/output 模块
